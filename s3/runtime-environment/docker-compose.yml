@@ -1,0 +1,60 @@
+version: "3.7"
+name: liferay-oauth-client-extension
+services:
+  S3liferay2023Q46:
+    image: liferay/dxp:2023.q4.6
+    container_name: S3liferay2023Q46
+    depends_on:
+       - S3apim
+    environment:
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY: 10
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES: 10
+      LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m"
+    networks: 
+      - S3liferay2023Q46Net
+    ports: 
+      - 8080:8080
+      - 127.0.0.1:11311:11311
+    volumes:
+      - ./liferay-74/mount:/mnt/liferay
+      - S3liferay2023Q46-tools:/opt/liferay/tools
+      - S3liferay2023Q46-data:/opt/liferay/data
+      - S3liferay2023Q46-osgi-configs:/opt/liferay/osgi/configs
+      - S3liferay2023Q46-osgi-marketplace:/opt/liferay/osgi/marketplace
+      - S3liferay2023Q46-osgi-modules:/opt/liferay/osgi/modules
+      - S3liferay2023Q46-osgi-war:/opt/liferay/osgi/war
+  S3apim:
+    image: kong/kong-gateway:3.6.0.0
+    container_name: S3apim
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+    networks: 
+      - S3liferay2023Q46Net
+    ports: 
+      - 8800:8000
+      - 8443:8443
+      - 8001:8001  
+      - 8444:8444
+      - 8002:8002  
+      - 8445:8445  
+      - 8003:8003  
+      - 8004:8004
+    volumes:
+      - ./kong/declarative:/kong/declarative/
+networks:
+  S3liferay2023Q46Net:
+    name: S3liferay2023Q46Net
+volumes:
+  S3liferay2023Q46-data:
+  S3liferay2023Q46-tools:
+  S3liferay2023Q46-osgi-configs:
+  S3liferay2023Q46-osgi-marketplace:
+  S3liferay2023Q46-osgi-modules:
+  S3liferay2023Q46-osgi-war:
