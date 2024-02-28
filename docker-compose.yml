@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+   liferay7413u112:
+    image: liferay/dxp:7.4.13-u112
+    container_name: liferay7413u112
+    # depends_on:
+      # - elasticsearch
+      # - mysql
+    environment:
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY: 10
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES: 10
+      LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m"
+    networks: 
+      - fs7413u112
+    ports: 
+      - 8080:8080
+      - 127.0.0.1:11311:11311
+    volumes:
+      - ./mount:/mnt/liferay
+      - liferay7413u112-tools:/opt/liferay/tools
+      - liferay7413u112-data:/opt/liferay/data
+      - liferay7413u112-osgi-configs:/opt/liferay/osgi/configs
+      - liferay7413u112-osgi-marketplace:/opt/liferay/osgi/marketplace
+      - liferay7413u112-osgi-modules:/opt/liferay/osgi/modules
+      - liferay7413u112-osgi-war:/opt/liferay/osgi/war
+networks:
+  fs7413u112:
+    name: fs7413u112
+volumes:
+  liferay7413u112-data:
+  liferay7413u112-tools:
+  liferay7413u112-osgi-configs:
+  liferay7413u112-osgi-marketplace:
+  liferay7413u112-osgi-modules:
+  liferay7413u112-osgi-war:
