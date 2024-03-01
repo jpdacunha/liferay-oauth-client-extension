@@ -1,0 +1,7 @@
+apim-oauth-application-user-agent:
+    .serviceAddress: localhost:8800
+    .serviceScheme: http
+    name: APIM OAuth Application User Agent
+    scopes:
+        - liferay-json-web-services.apim.httpbin.mock.read
+    type: oAuthApplicationUserAgent
