@@ -8,12 +8,12 @@ SPA apps integrated in Liferay using front-end client extension (micro front-end
 
 There is several solution available to us :
 
-| Solution     | Title   | Description |
-| --------     | ------- | -------     |
-| S1           | Unique domain    |
-| S2           | A proxy betwwen Liferay and APIM rewriting URL's to be the same domain.    |
-| S3           | APIM validatong token in Liferay    |
-| S4           | Back End for Fron-end    |
+| Solution     | Title   | Links |
+| --------     | ------- | -------                                                      |
+| S1           | Unique domain                    | [Voir la page dédiée](./s1/README.md) |
+| S2           | Unique domain using web proxy    | [Voir la page dédiée](./s2/README.md) |
+| S3           | APIM validating token in Liferay | [Voir la page dédiée](./s3/README.md) |
+| S4           | Back End for Fron-end            | [Voir la page dédiée](./s4/README.md) |
 
 * Solution 01 : Using same domain for both 
 
