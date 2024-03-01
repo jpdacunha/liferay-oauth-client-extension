@@ -25,7 +25,8 @@ sequenceDiagram
     Back End Service-->>-Bob's browser: Returning datas to browser
 ```
 
-##Setup
+## Setup
+
 ### 1. Configure service access policy to create a new OAuth 2.0 scope
 
 Creation of available scopes remain a manual operation
@@ -41,3 +42,29 @@ Check Enabled
 For the title: Make requests against https://httpbin.org/get
 
 Hit Save.
+
+## Utils
+
+### 1. Exposed services
+
+#### 1. APIM
+
+| Service             | Title   | Links |
+| --------         | ------- | -------                                                        |
+| Cities           | https://apim.dev.local:8443/cities      | Returned the headers of original request has a response |
+| Debug            | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
+
+#### 2. PORTAL
+
+| Service             | Title   | Links |
+| --------         | ------- | -------                                                        |
+| Liferay           | https://portal.dev.local:8080      | URL of Liferay portal |
+
+
+#### 3. APPS
+
+
+| Service             | Title   | Links |
+| --------         | ------- | -------                                                        |
+| APP1             | https://app1.dev.local:3000     | URL of first app declared has client extension on Liferay |
+| APP2             | https://app2.dev.local:3000     | URL of first app declared has client extension on Liferay |
