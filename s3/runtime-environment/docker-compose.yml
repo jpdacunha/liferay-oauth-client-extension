@@ -48,6 +48,17 @@ services:
       - 8004:8004
     volumes:
       - ./kong/declarative:/kong/declarative/
+  app1:
+    container_name: app1-react-docker
+    build:
+      context: ../front-end/app1-docker-example
+    networks:
+      - S3liferay2023Q46Net
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../front-end/app1-docker-example:/app/app1-docker-example
+      - /app/app1-docker-example/node_modules
 networks:
   S3liferay2023Q46Net:
     name: S3liferay2023Q46Net
