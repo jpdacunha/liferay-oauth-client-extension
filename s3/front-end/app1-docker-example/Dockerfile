@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN echo "'hello'"
 RUN ls /app
 
 RUN npm install

@@ -30,7 +30,6 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 127.0.0.1       app2.dev.local
 ```
 # TODO 
-- Modify app to integrate has component in Liferay
 - Declare apps has client extension inside Liferay
 - Modify app to make a back-end call
 - Verifyin token in APIM side
