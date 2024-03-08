@@ -29,6 +29,13 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 127.0.0.1       app1.dev.local
 127.0.0.1       app2.dev.local
 ```
+
+#References
+
+* [Automatically deploy client extension as remote apps in Liferay]( https://liferay.dev/blogs/-/blogs/-front-end-client-extension-how-to-automate-deployments-for-remote-apps-in-on-premises)
+
+
+
 # TODO 
 - Declare apps has client extension inside Liferay
 - Modify app to make a back-end call
