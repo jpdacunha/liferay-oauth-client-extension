@@ -1,5 +1,5 @@
 
 #!/bin/bash
 
-echo " Stopping Apim"
-sudo docker compose down s3-app1-react-docker
+echo " Stopping APP1"
+sudo docker compose down s3-app1

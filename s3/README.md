@@ -67,4 +67,4 @@ Hit Save.
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
 | APP1             | https://app1.dev.local:3000     | URL of first app declared has client extension on Liferay |
-| APP2             | https://app2.dev.local:3000     | URL of first app declared has client extension on Liferay |
+| APP2             | https://app2.dev.local:3000     | URL of second app declared has client extension on Liferay |

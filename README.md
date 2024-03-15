@@ -34,9 +34,17 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 
 * [Automatically deploy client extension as remote apps in Liferay]( https://liferay.dev/blogs/-/blogs/-front-end-client-extension-how-to-automate-deployments-for-remote-apps-in-on-premises)
 
+* [Reference resources as absolute path in ReactJS](https://dev.to/hidaytrahman/absolute-path-in-react-125h)
 
 
-# TODO 
-- Declare apps has client extension inside Liferay
-- Modify app to make a back-end call
-- Verifyin token in APIM side
+
+# TODO
+- Returned JSON is not displaying correctly in Liferay (actual doesn't work outside Liferay)
+- Modify app to make a back-end call (working inside liferay and signed in only)
+- Generate token for the right scope (at this time scope field is empty for bearer token)
+- Make app working outside Liferay using Axios instead of Liferay OOTB client
+- Verifyin token in APIM side -> Check that APIM reject calls if no token is passed (the App will not work anymore outside Liferay)
+
+# TO SOLVE :
+- Automatic deployement ./gradlew deploy
+- Update Liferay Virtual Host Value automatically (Chexk if runing SQL scripts is possible in H2 container instead of Liferay)

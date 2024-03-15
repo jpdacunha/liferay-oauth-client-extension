@@ -1,5 +1,5 @@
 apim-oauth-application-user-agent:
-    .serviceAddress: localhost:8800
+    .serviceAddress: apim.dev.local:8800
     .serviceScheme: http
     name: APIM OAuth Application User Agent
     scopes:

@@ -2,4 +2,4 @@
 #!/bin/bash
 
 echo " Stopping Apim"
-sudo docker compose down s3-apim
+sudo docker compose down s3-liferay

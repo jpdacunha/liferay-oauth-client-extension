@@ -1,0 +1,20 @@
+instance-settings-e9b8w3:
+    allowedDomains:
+        - localhost
+        - "*.dev.local"
+    name: Instance Settings E9B8W3
+    pid: com.liferay.redirect.internal.configuration.RedirectURLConfiguration
+    securityMode: domain
+    type: instanceSettings
+instance-settings-F0c9x4:
+    name: Instance Settings F0C9X4
+    enabled: true
+    pid: com.liferay.portal.remote.cors.configuration.PortalCORSConfiguration
+    type: instanceSettings
+    filter.mapping.url.pattern:
+        - "*/*"
+    headers:
+        - "Access-Control-Allow-Credentials:\ true"
+        - "Access-Control-Allow-Headers:\ *"
+        - "Access-Control-Allow-Methods:\ *"
+        - "Access-Control-Allow-Origin:\ *.dev.local"
