@@ -39,7 +39,7 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 
 
 # TODO
-- Returned JSON is not displaying correctly in Liferay (actual doesn't work outside Liferay)
+- Modify APP to retrieve APIM URL from Liferay replace hard coded URL
 - Modify app to make a back-end call (working inside liferay and signed in only)
 - Generate token for the right scope (at this time scope field is empty for bearer token)
 - Make app working outside Liferay using Axios instead of Liferay OOTB client

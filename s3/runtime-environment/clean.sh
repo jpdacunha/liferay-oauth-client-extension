@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo " Clean dangling containers ..."
-sudo docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+echo " Clean docker installation ..."
+sudo docker system prune

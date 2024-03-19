@@ -1,27 +1,33 @@
-import {Portal} from './Portal.js';
+import {Portal} from './common/Portal.js';
+import {AxiosClient} from './common/AxiosClient.js';
 
 
-export class ApimClient {
+export class ApimClient extends AxiosClient {
 
-    constructor(oAuth2Client) {
-
+    constructor(apiUrl, envId, headers) {
         console.log("Initializing APIM client...");
-        const oauthConfigName = 'apim-oauth-application-user-agent';
-    
-        try {
-            this.oAuth2Client = Portal.OAuth2Client.FromUserAgentApplication(oauthConfigName);
-            console.debug("Created client : " + JSON.stringify(this.oAuth2Client, null, 2))
-        } catch (error) {
-            console.error(error);
-        }
-
+        super(apiUrl, envId, headers);
     };
 
     debugRoute() {
-        this.oAuth2Client?.fetch('/debug/get').then((mockGet) => {
+
+        const url = '/debug/get';
+
+        return super.getAxiosInstance()
+            .get(url)
+            .then((response) => {
+                console.debug("Returned response for ApimClient : " + JSON.stringify({url, response:response.data}));
+                return response.data;
+            })
+            .catch((error) => {
+                super.handlePromiseError(error);
+            })
+
+
+        /*super.getAxiosInstance().get('http:/apim.de.local:8800/debug/get').then((mockGet) => {
             console.debug("Returning : " + JSON.stringify(mockGet, null, 2));
 			return mockGet;
-		});
+		});*/
     }
 
     getCommunes() {
