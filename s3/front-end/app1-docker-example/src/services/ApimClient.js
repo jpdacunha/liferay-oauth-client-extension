@@ -23,7 +23,7 @@ export class ApimClient extends AxiosClient {
         return super.getAxiosInstance()
             .get(url)
             .then((response) => {
-                console.debug("Returned response for ApimClient : " + JSON.stringify({url, response:response.data}));
+                console.debug("Returned response from ApimClient : " + JSON.stringify({url, response:response.data}));
                 return response.data;
             })
             .catch((error) => {

@@ -17,16 +17,16 @@ export class ApimClient {
 
     };
 
-    debugRoute() {
-        this.oAuth2Client?.fetch('/debug/get').then((mockGet) => {
-            console.debug("Returning : " + JSON.stringify(mockGet, null, 2));
-			return mockGet;
+    async debugRoute() {
+        this.oAuth2Client?.fetch('/debug/get').then(response => {
+            console.debug("Returning from APIM client : " + JSON.stringify(response, null, 2));
+			return response;
 		});
     }
 
-    getCommunes() {
+    async getCommunes() {
         this.oAuth2Client?.fetch('/communes').then((mockGet) => {
-            console.debug("Returning : " + JSON.stringify(mockGet, null, 2));
+            console.debug("Returning from APIM client : " + JSON.stringify(mockGet, null, 2));
 			return mockGet;
 		})      
     }

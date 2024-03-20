@@ -10,11 +10,13 @@ function Display() {
 
 			try {
 
-				/*const apimClient = new ApimClient();
+				const apimClient = new ApimClient();
 				const debugResponse = await apimClient.debugRoute();
-				console.debug("Received response from client : " + debugResponse);
-				setDebugData(debugResponse);*/
-				console.debug("Hello");
+				//Ugly wait here because await is not working as expected
+				setTimeout(() => {
+					console.debug("Received response from client after waiting : " + debugResponse);
+					setDebugData(debugResponse);
+				}, 3000);
 
 			} catch (error) {
 				console.error(error);

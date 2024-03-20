@@ -1,10 +1,11 @@
+import Display from 'components/Display';
 import './App.css';
 
 function App2() {
   return (
     <div className="App2">
       <header className="App2-header">
-         HELLO
+         <Display />
       </header>
     </div>
   );
