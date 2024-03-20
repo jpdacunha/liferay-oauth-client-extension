@@ -3,8 +3,8 @@ import Display from "./components/Display.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="App1">
+      <header className="App1-header">
         <Display />
       </header>
     </div>

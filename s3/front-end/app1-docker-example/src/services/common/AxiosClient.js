@@ -37,7 +37,7 @@ export class AxiosClient {
 
     createClient() {
 
-        let selfSigned = false;
+        /*let selfSigned = false;
         if (this.envId === 'dev') {
             console.log('Client is working in dev mode : please be aware of not using this in production');
             selfSigned = true;
@@ -45,7 +45,7 @@ export class AxiosClient {
             console.log('Client is working in ${this.envId} mode');
         }
 
-        /*const httpsAgent = new https.Agent({
+        const httpsAgent = new https.Agent({
             rejectUnauthorized: selfSigned,
         })*/
 
@@ -53,11 +53,30 @@ export class AxiosClient {
             baseURL: this.apiUrl,
             //httpsAgent: httpsAgent,
             headers: this.headers, 
+            withCredentials: true,
             timeout: 20000
         }
 
         console.log('Creating Rest Client using configuration : ' + JSON.stringify(params));
-        return axios.create(params);
+        const axiosApiInstance = axios.create(params);
+
+        //Requesting Access Token
+        //https://blog.theashishmaurya.me/handling-jwt-access-and-refresh-token-using-axios-in-react-app
+        //https://medium.com/swlh/handling-access-and-refresh-tokens-using-axios-interceptors-3970b601a5da
+        //https://www.thedutchlab.com/en/insights/using-axios-interceptors-for-refreshing-your-api-token
+        
+        /*api.interceptors.request.use(
+            (config) => {
+              const token = localStorage.getItem('token');
+              if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+              }
+              return config;
+            },
+            (error) => Promise.reject(error)
+        );*/
+
+        return axiosApiInstance;
     }
     
     getAxiosInstance() {

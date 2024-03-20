@@ -1,19 +1,14 @@
-.App1 {
-  font-size: 11px;
-  text-align: left;
+.App2 {
+  text-align: center;
 }
 
-.App1 pre {
-  font-size: 11px;
-  color:white;
-}
-
-.App1-header {
+.App2-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
 }

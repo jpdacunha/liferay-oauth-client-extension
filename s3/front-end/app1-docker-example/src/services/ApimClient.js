@@ -4,9 +4,16 @@ import {AxiosClient} from './common/AxiosClient.js';
 
 export class ApimClient extends AxiosClient {
 
-    constructor(apiUrl, envId, headers) {
+    constructor(apiUrl) {
+
         console.log("Initializing APIM client...");
+
+        //Hard coded for POC only
+        const envId="dev"
+	    const headers={};
+
         super(apiUrl, envId, headers);
+
     };
 
     debugRoute() {
@@ -23,11 +30,6 @@ export class ApimClient extends AxiosClient {
                 super.handlePromiseError(error);
             })
 
-
-        /*super.getAxiosInstance().get('http:/apim.de.local:8800/debug/get').then((mockGet) => {
-            console.debug("Returning : " + JSON.stringify(mockGet, null, 2));
-			return mockGet;
-		});*/
     }
 
     getCommunes() {

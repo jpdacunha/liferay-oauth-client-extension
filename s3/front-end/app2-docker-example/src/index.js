@@ -1,17 +1,17 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
 import './index.css';
-import App from './App';
+import App2 from './App2.js';
 import reportWebVitals from './reportWebVitals';
 
-const ELEMENT_ID = 'app1-docker-example';
+const ELEMENT_ID = 'app2-docker-example';
 
 class WebComponent extends HTMLElement {
 
   connectedCallback() {
 		this.root = createRoot(this);
 
-		this.root.render(<App />);
+		this.root.render(<App2 />);
   }
 
   disconnectedCallback() {
