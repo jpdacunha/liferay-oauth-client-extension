@@ -1,34 +1,30 @@
 import {Portal} from './common/Portal.js';
 
-
 export class ApimClient {
 
-    constructor(oAuth2Client) {
+    oAuth2Client
 
-        console.log("Initializing APIM client...");
+    async _initializeClient() {
+        
         const oauthConfigName = 'apim-oauth-application-user-agent';
-    
         try {
-            this.oAuth2Client = Portal.OAuth2Client.FromUserAgentApplication(oauthConfigName);
-            console.debug("Created client : " + JSON.stringify(this.oAuth2Client, null, 2))
+
+            if (typeof(this.oAuth2Client) == 'undefined') {        
+                console.debug("Initializing APIM client...");
+                this.oAuth2Client = await Portal.OAuth2Client.FromUserAgentApplication(oauthConfigName);  
+                console.debug("Client initialized : " + JSON.stringify(this.oAuth2Client, null, 2));
+            } else {
+                console.debug("APIM client is already initialized ...");
+            }
+           
         } catch (error) {
             console.error(error);
         }
-
-    };
-
-    async debugRoute() {
-        this.oAuth2Client?.fetch('/debug/get').then(response => {
-            console.debug("Returning from APIM client : " + JSON.stringify(response, null, 2));
-			return response;
-		});
+    
     }
 
-    async getCommunes() {
-        this.oAuth2Client?.fetch('/communes').then((mockGet) => {
-            console.debug("Returning from APIM client : " + JSON.stringify(mockGet, null, 2));
-			return mockGet;
-		})      
+    get client() {
+        return this.oAuth2Client;
     }
 
 }
