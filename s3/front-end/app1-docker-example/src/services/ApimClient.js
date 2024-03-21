@@ -1,5 +1,6 @@
 import {Portal} from './common/Portal.js';
 import {AxiosClient} from './common/AxiosClient.js';
+import {EndPointsApimUrls} from './common/EndPointsApimUrls';
 
 
 export class ApimClient extends AxiosClient {
@@ -18,7 +19,7 @@ export class ApimClient extends AxiosClient {
 
     debugRoute() {
 
-        const url = '/debug/get';
+        const url = EndPointsApimUrls.DEBUG;
 
         return super.getAxiosInstance()
             .get(url)
@@ -33,10 +34,19 @@ export class ApimClient extends AxiosClient {
     }
 
     getCommunes() {
-        this.oAuth2Client?.fetch('/communes').then((mockGet) => {
-            console.debug("Returning : " + JSON.stringify(mockGet, null, 2));
-			return mockGet;
-		})      
+
+        const url = EndPointsApimUrls.COMMUNES;
+
+        return super.getAxiosInstance()
+            .get(url)
+            .then((response) => {
+                console.debug("Returned response from ApimClient : " + JSON.stringify({url, response:response.data}));
+                return response.data;
+            })
+            .catch((error) => {
+                super.handlePromiseError(error);
+            }) 
+
     }
 
 }

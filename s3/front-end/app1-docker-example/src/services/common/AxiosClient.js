@@ -64,6 +64,8 @@ export class AxiosClient {
         //https://blog.theashishmaurya.me/handling-jwt-access-and-refresh-token-using-axios-in-react-app
         //https://medium.com/swlh/handling-access-and-refresh-tokens-using-axios-interceptors-3970b601a5da
         //https://www.thedutchlab.com/en/insights/using-axios-interceptors-for-refreshing-your-api-token
+
+        //https://liferay.dev/blogs/-/blogs/liferay-oauth-2-0-authorization-flows/maximized
         
         /*api.interceptors.request.use(
             (config) => {
