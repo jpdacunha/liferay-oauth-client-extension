@@ -14,12 +14,11 @@ const Display = () => {
 			try {
 
 				let oAuth2ClientConfig = Portal.OAuth2Client.FromUserAgentApplication(oauthConfigName);
-				console.debug("Created client : " + JSON.stringify(oAuth2ClientConfig, null, 2))
+				console.debug("Client configuration : " + JSON.stringify(oAuth2ClientConfig, null, 2))
 				const {homePageURL: apiUrl} = oAuth2ClientConfig;
 
 				const apimClient = new ApimClient(apiUrl);
 				const debugResponse = await apimClient.debugRoute();
-				console.debug("Received response from client : " + debugResponse);
 				setDebugData(debugResponse);
 
 			} catch (error) {

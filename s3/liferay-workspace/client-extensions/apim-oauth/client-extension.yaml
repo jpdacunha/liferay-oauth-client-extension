@@ -4,4 +4,5 @@ apim-oauth-application-user-agent:
     name: APIM OAuth Application User Agent
     scopes:
         - liferay-json-web-services.apim.httpbin.mock.read
+        - liferay-json-web-services.apim.communes.read
     type: oAuthApplicationUserAgent
