@@ -11,10 +11,8 @@ export class AxiosClient {
 
     _axiosInstance;
     standardTimeout = 10000;
-
     envId;
     headers;
-
     authorizeURL; 
     clientId; 
     clientSecret;
@@ -97,7 +95,8 @@ export class AxiosClient {
             withCredentials: true,
             timeout: 20000,
             authorizeURL: this.authorizeURL,
-            clientId: this.clientId
+            clientId: this.clientId,
+            redirect_uri: this.redirectURI
         }
 
         const localStorageService = LocalStorageService.getService();
@@ -113,20 +112,34 @@ export class AxiosClient {
 
         axiosApiInstance.interceptors.request.use(
             (config) => {
+
                 const token = localStorageService.getAccessToken();
+
                 if (token) {
                     config.headers['Authorization'] = 'Bearer ' + token;
                 } else {
 
-                    console.log(">>>>>>>>>>>>>> authorizeUrl : " + config.authorizeURL)
+                    const queryString = window.location.search;
+                    const urlParams = new URLSearchParams(queryString);
+                    const code = urlParams.get('code');
 
-                    const res = axios.get(config.authorizeURL, {params:{ client_id: config.clientId, response_type: 'code'}}, {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                    });
+                    if (code) {
 
-                    console.log("!!!!>>>>>>>>>>>>>>" + res.data);
+                        console.log(">>>>>>>>>>>>>> CODE : " + code)
+
+                    } else {
+
+                        console.log(">>>>>>>>>>>>>> authorizeUrl : " + config.authorizeURL)
+
+                        const res = axios.get(config.authorizeURL, {params:{client_id: config.clientId, response_type: 'code', redirect_uri: config.redirect_uri}}, {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                        });
+    
+                        console.log("!!!!>>>>>>>>>>>>>> : " + res.data);
+
+                    }
 
                 }
                 // config.headers['Content-Type'] = 'application/json';

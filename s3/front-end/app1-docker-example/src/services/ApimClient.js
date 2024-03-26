@@ -1,4 +1,3 @@
-import {Portal} from './common/Portal.js';
 import {AxiosClient} from './common/AxiosClient.js';
 import {EndPointsApimUrls} from './common/EndPointsApimUrls';
 
@@ -9,14 +8,14 @@ export class ApimClient extends AxiosClient {
 
         console.log("Initializing APIM client...");
 
+        const redirectURL = window.location.origin + window.location.pathname
+
         const oAuth2ClientConfig = {
             "authorizeURL": "http://portal.dev.local:8080/o/oauth2/authorize",
-            "clientId": "id-6fb14480-a7c3-3d16-f828-a93d7bfadd2",
-            "clientSecret": "secret-161cae96-73f6-c858-7e5e-4decacde2bb2",
+            "clientId": "id-b9550348-fed3-e109-1159-07a81865cb",
+            "clientSecret": "secret-f041faea-58da-539f-a5a1-5e1aa17d2",
             "apiURL": "http://apim.dev.local:8800",
-            "redirectURI": [
-              "http://portal.dev.local:8080/o/oauth2/redirect"
-            ],
+            "redirectURI": redirectURL,
             "tokenURL": "http://portal.dev.local:8080/o/oauth2/token",
         }
 

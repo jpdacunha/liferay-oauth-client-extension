@@ -4,3 +4,14 @@ GET http://portal.dev.local:8080/o/oauth2/authorize
 Content-Type: application/x-www-form-urlencoded
 client_id=id-6fb14480-a7c3-3d16-f828-a93d7bfadd2
 &response_type=code
+&redirect_uri=http://portal.dev.local:8080/o/oauth2/redirect
+
+# http://portal.dev.local:8080/o/oauth2/authorize?client_id=id-6fb14480-a7c3-3d16-f828-a93d7bfadd2&response_type=code&redirect_uri=http://portal.dev.local:8080/o/oauth2/redirect
+
+########################################## Get tokens : Resource Owner Password Credentials  ##########################################
+POST http://portal.dev.local:8080/o/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+ 
+client_id=id-6fb14480-a7c3-3d16-f828-a93d7bfadd2
+&client_secret=secret-161cae96-73f6-c858-7e5e-4decacde2bb2
+&grant_type=client_credentials

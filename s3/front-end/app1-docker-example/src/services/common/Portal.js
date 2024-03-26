@@ -30,7 +30,7 @@ export const Portal = window.Liferay || {
 		getScopeGroupId: () => 0,
 		getSiteGroupId: () => 0,
 		isSignedIn: () => {
-			return true;
+			return false;
 		},
 	},
 	authToken: '',

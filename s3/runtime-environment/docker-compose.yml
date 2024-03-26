@@ -3,7 +3,7 @@ name: s3-liferay-oauth-client-extension
 services:
   s3-liferay:
     image: liferay/dxp:2023.q4.6
-    container_name: s3-liferay-2023Q46
+    container_name: s3-liferay
     depends_on:
        - s3-apim
     environment:

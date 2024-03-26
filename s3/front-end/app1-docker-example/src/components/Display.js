@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {ApimClient} from '../services/ApimClient.js';
-import { Portal } from 'services/common/Portal.js';
 
 const Display = () => {
 
@@ -9,15 +8,8 @@ const Display = () => {
 	useEffect(() => {
 		async function fetchData() {
 
-			const oauthConfigName = 'apim-oauth-application-user-agent';
-    
 			try {
-
-				let oAuth2ClientConfig = Portal.OAuth2Client.FromUserAgentApplication(oauthConfigName);
-				console.debug("Client configuration : " + JSON.stringify(oAuth2ClientConfig, null, 2))
-				const {homePageURL: apiUrl} = oAuth2ClientConfig;
-
-				const apimClient = new ApimClient(apiUrl);
+				const apimClient = new ApimClient();
 				const debugResponse = await apimClient.debugRoute();
 				setDebugData(debugResponse);
 
