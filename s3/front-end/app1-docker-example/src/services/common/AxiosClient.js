@@ -118,29 +118,7 @@ export class AxiosClient {
                 if (token) {
                     config.headers['Authorization'] = 'Bearer ' + token;
                 } else {
-
-                    const queryString = window.location.search;
-                    const urlParams = new URLSearchParams(queryString);
-                    const code = urlParams.get('code');
-
-                    if (code) {
-
-                        console.log(">>>>>>>>>>>>>> CODE : " + code)
-
-                    } else {
-
-                        console.log(">>>>>>>>>>>>>> authorizeUrl : " + config.authorizeURL)
-
-                        const res = axios.get(config.authorizeURL, {params:{client_id: config.clientId, response_type: 'code', redirect_uri: config.redirect_uri}}, {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
-                            },
-                        });
-    
-                        console.log("!!!!>>>>>>>>>>>>>> : " + res.data);
-
-                    }
-
+                    console.debug("No authorization token provided");
                 }
                 // config.headers['Content-Type'] = 'application/json';
                 return config;
