@@ -13,47 +13,16 @@ export class AxiosClient {
     standardTimeout = 10000;
     envId;
     headers;
-    authorizeURL; 
-    clientId; 
-    clientSecret;
     apiURL;
-    redirectURI;
-    tokenURL;
 
-    constructor(envId, headers, oAuth2ClientConfig) {
+    constructor(clientConfig) {
 
-        const {authorizeURL, clientId, clientSecret, apiURL, redirectURI, tokenURL} = oAuth2ClientConfig;
-
-        //Oauth params
-        if (!authorizeURL) {
-            throw new Error("Invalid authorizeUrl : it is mandatory to provide a valid authorizeURL");
-        } 
-        this.authorizeURL = authorizeURL;
-
-        if (!clientId) {
-            throw new Error("Invalid clientId : it is mandatory to provide a valid clientId");
-        } 
-        this.clientId = clientId;
-
-        if (!clientSecret) {
-            throw new Error("Invalid clientSecret : it is mandatory to provide a valid clientSecret");
-        } 
-        this.clientSecret = clientSecret;
+        const {apiURL, headers, envId} = clientConfig; 
 
         if (!apiURL) {
             throw new Error("Invalid apiUrl : it is mandatory to provide a valid apiUrl");
         } 
         this.apiURL = apiURL;
-
-        if (!redirectURI) {
-            throw new Error("Invalid redirectURI : it is mandatory to provide a valid redirectURI");
-        } 
-        this.redirectURI = redirectURI;
-
-        if (!tokenURL) {
-            throw new Error("Invalid tokenURL : it is mandatory to provide a valid tokenURL");
-        } 
-        this.tokenURL = tokenURL;
 
         //Other params
         if (!envId) {
@@ -94,9 +63,7 @@ export class AxiosClient {
             headers: this.headers, 
             withCredentials: true,
             timeout: 20000,
-            authorizeURL: this.authorizeURL,
-            clientId: this.clientId,
-            redirect_uri: this.redirectURI
+
         }
 
         const localStorageService = LocalStorageService.getService();

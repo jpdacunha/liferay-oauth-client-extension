@@ -106,6 +106,15 @@ Create page for app2 :
 Update callback URL according to create pages :
 ![CCallback URI](./images/oauth2.0-callbackuri.png "Callback URI")
 
+copy / paste the following in the field visible on screenshot above 
+
+```code
+@protocol@://portal.dev.local@port-with-colon@/o/oauth2/redirect
+http://app1.dev.local:3000
+@protocol@://portal.dev.local@port-with-colon@/app1
+@protocol@://portal.dev.local@port-with-colon@/app2
+```
+
 ## Utils
 
 ### 1. Exposed services

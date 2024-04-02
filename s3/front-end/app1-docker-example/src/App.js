@@ -1,6 +1,6 @@
 import 'App.css';
 import Display from "./components/Display.js";
-import {OauthService} from './services/common/OauthService.js';
+import {OauthService} from './services/OauthService.js';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
   if (code) {
 
     console.log(">>>>>>>>>>>>>> CODE : " + code)
+    oauth.exhangeForToken(code);
 
   } else if (!signedIn) {
     const redirect = oauth.getAuthorizeUrl();

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {ApimClient} from '../services/ApimClient.js';
+import {ApimService} from '../services/ApimService.js';
 
 const Display = () => {
 
@@ -9,7 +9,7 @@ const Display = () => {
 		async function fetchData() {
 
 			try {
-				const apimClient = new ApimClient();
+				const apimClient = new ApimService();
 				const debugResponse = await apimClient.debugRoute();
 				setDebugData(debugResponse);
 
