@@ -1,13 +1,14 @@
 import 'App.css';
 import Display from "./components/Display.js";
-import {Oauth} from './services/common/Oauth.js';
+import {OauthService} from './services/common/OauthService.js';
 
 function App() {
 
-  const oauth = new Oauth();
+  const oauth = new OauthService();
 
-  //Manage authentification using external URL (login / passwort)
+  //Manage authentification using external URL (login / password)
   const signedIn = oauth.isSignedIn();
+
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const code = urlParams.get('code');
@@ -25,7 +26,7 @@ function App() {
   return (
     <div className="App1"> 
 
-      {new Oauth().isSignedIn() 
+      {oauth.isSignedIn() 
       && (
         <header className="App1-header">
           <div>

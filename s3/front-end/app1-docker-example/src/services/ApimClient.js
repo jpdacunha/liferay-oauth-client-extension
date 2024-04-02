@@ -1,5 +1,5 @@
 import {AxiosClient} from './common/AxiosClient.js';
-import {Oauth} from './common/Oauth.js';
+import {OauthService} from './common/OauthService.js';
 import {EndPointsApimUrls} from './common/EndPointsApimUrls';
 
 
@@ -16,9 +16,11 @@ export class ApimClient extends AxiosClient {
             "redirectURI": redirectURL
         }
 
+        const oAuth = new OauthService();
+
         let mergedConfig = {
             ...oAuth2ClientConfig,
-            ...Oauth.config()
+            ...oAuth.getOauthConfiguration()
         };
 
          //Hard coded for POC only

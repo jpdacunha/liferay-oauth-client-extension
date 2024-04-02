@@ -1,17 +1,25 @@
 import {Portal} from './Portal.js'
 
-export class Oauth {
+export class OauthService {
 
-    config = {
+    config;
 
-        "authorizeURL": "http://portal.dev.local:8080/o/oauth2/authorize",
-        "clientId": "id-b9550348-fed3-e109-1159-07a81865cb",
-        "clientSecret": "secret-f041faea-58da-539f-a5a1-5e1aa17d2",
-        "tokenURL": "http://portal.dev.local:8080/o/oauth2/token"
+    constructor() {
+
+        console.log("Initializing Oauth configuration ...");
+
+        this.config = {
+
+            "authorizeURL": "http://portal.dev.local:8080/o/oauth2/authorize",
+            "clientId": "id-b9550348-fed3-e109-1159-07a81865cb",
+            "clientSecret": "secret-f041faea-58da-539f-a5a1-5e1aa17d2",
+            "tokenURL": "http://portal.dev.local:8080/o/oauth2/token"
+    
+        }
 
     }
 
-    get configuration() {
+    getOauthConfiguration() {
         return this.config;
     }
 
