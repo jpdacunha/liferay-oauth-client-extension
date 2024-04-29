@@ -2,7 +2,7 @@ version: "3.7"
 name: s3-liferay-oauth-client-extension
 services:
   s3-liferay:
-    image: liferay/dxp:2023.q4.6
+    image: liferay/dxp:2024.q1.5
     container_name: s3-liferay
     depends_on:
        - s3-apim
@@ -73,6 +73,16 @@ services:
     volumes:
       - ../front-end/app2-docker-example:/app/app2-docker-example
       - /app/app2-docker-example/node_modules
+  s3-oauth-tester:
+    container_name: s3-oauth-tester
+    build:
+      context: ./oauth-tester
+    networks:
+      - s3-network
+    ports:
+      - 80:80
+    volumes:
+      - ./oauth-tester/conf.d:/etc/nginx/conf.d    
 networks:
   s3-network:
     name: s3-network

@@ -113,6 +113,8 @@ copy / paste the following in the field visible on screenshot above
 http://app1.dev.local:3000
 @protocol@://portal.dev.local@port-with-colon@/app1
 @protocol@://portal.dev.local@port-with-colon@/app2
+http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.local@port-with-colon@&client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd
+http://tester.dev.local/authorization_code?url=@protocol@://portal.dev.local@port-with-colon@&client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd
 ```
 
 ## Utils

@@ -6,15 +6,15 @@ export class OauthService extends AxiosClient {
     config = {
 
         "authorizeURL": "http://portal.dev.local:8080/o/oauth2/authorize",
-        "clientId": "id-b9550348-fed3-e109-1159-07a81865cb",
-        "clientSecret": "secret-ddf3a4d1-3941-2a7c-619e-d47b44b761",
+        "clientId": "id-b9b1a6b9-7a59-4bf9-6a63-bd067c9dfcd",
+        "clientSecret": "secret-824ae6e5-d1e6-35dd-2048-f11ce61e4f",
         "tokenURL": "http://portal.dev.local:8080/o/oauth2/token"
 
     }
 
     constructor() {
 
-        console.log("Initializing OAUTH Service ...");
+        console.log("Initializing OauthService ...");
 
         const clientConfig = {
             "apiURL": "http://portal.dev.local:8800",
@@ -52,6 +52,8 @@ export class OauthService extends AxiosClient {
         } else {
             body["redirect_uri"] = this.getDefaultRedirectURL();
         }
+
+        console.debug("Requesting [" + url + "] with code [" + code + "] for access token.")
 
         super.getAxiosInstance()
             .post(url, body, headers)

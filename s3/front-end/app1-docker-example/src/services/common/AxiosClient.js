@@ -85,9 +85,8 @@ export class AxiosClient {
                 if (token) {
                     config.headers['Authorization'] = 'Bearer ' + token;
                 } else {
-                    console.debug("No authorization token provided");
+                    console.debug("No authorization token provided"); 
                 }
-                // config.headers['Content-Type'] = 'application/json';
                 return config;
             },
             (error) => Promise.reject(error)
@@ -112,11 +111,7 @@ export class AxiosClient {
             console.error('Message', error.message);
         }
 
-        if (error.response) {
-            throw error.response;
-        } else {
-            throw new Error('Error : ' + error);
-        }
+        throw new Error('Error : ' + error);
 
     }
 
