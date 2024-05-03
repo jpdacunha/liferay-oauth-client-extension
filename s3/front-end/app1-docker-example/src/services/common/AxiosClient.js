@@ -1,8 +1,7 @@
 
 
 import axios from 'axios';
-import LocalStorageService from './LocalStorageService';
-
+import {LocalStorageService} from './LocalStorageService.js';
 
 const NETWORK_ERROR = "Network Error";
 const DEV_ENV = "dev";
@@ -66,7 +65,7 @@ export class AxiosClient {
 
         }
 
-        const localStorageService = LocalStorageService.getService();
+        const localStorageService = new LocalStorageService();
 
         console.log('Creating Rest Client using configuration : ' + JSON.stringify(params));
         const axiosApiInstance = axios.create(params);

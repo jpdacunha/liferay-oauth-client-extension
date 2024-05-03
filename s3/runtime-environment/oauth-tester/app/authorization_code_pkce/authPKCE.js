@@ -8,7 +8,6 @@ function authorizePKCE(){
         var codeChallenge = $('#convertedCodeChallenge').val()
         var redirectUri = encodeURIComponent(removeLastSlash(window.location.href) + "?url=" + liferayUrl + "&client_id=" + clientId);
         console.debug("redirectUri : " + redirectUri);
-        alert(">>>>>>>>>>>>>>>>>>>>> : " + redirectUri);
         window.location.href = liferayUrl + $('#authorizeUrlPKCE').val() + ("?client_id={0}&response_type=code&redirect_uri={1}&code_challenge={2}").replace("{0}", clientId).replace("{1}", redirectUri).replace("{2}", codeChallenge);
     }
 }

@@ -1,18 +1,22 @@
 import {AxiosClient} from './common/AxiosClient.js';
 import {Portal} from './common/Portal.js';
+import {LocalStorageService} from './common/LocalStorageService.js';
+import sha256 from 'crypto-js/sha256';
+import Base64URL from "crypto-js/enc-base64url"
+import Utf8 from "crypto-js/enc-utf8"
 
 export class OauthService extends AxiosClient {
 
     config = {
 
         "authorizeURL": "http://portal.dev.local:8080/o/oauth2/authorize",
-        "clientId": "id-b9b1a6b9-7a59-4bf9-6a63-bd067c9dfcd",
-        "clientSecret": "secret-824ae6e5-d1e6-35dd-2048-f11ce61e4f",
+        "clientId": "id-2ede2606-9967-e3af-db74-4d94c68ebd",
         "tokenURL": "http://portal.dev.local:8080/o/oauth2/token"
-
     }
 
-    constructor() {
+    appId
+
+    constructor(appId) {
 
         console.log("Initializing OauthService ...");
 
@@ -23,6 +27,8 @@ export class OauthService extends AxiosClient {
         }
 
         super(clientConfig);
+
+        this.appId = appId;
 
     }
 
@@ -40,11 +46,14 @@ export class OauthService extends AxiosClient {
             }
         };
 
+        const localStorageService = new LocalStorageService();
+        const codeVerifier = localStorageService.getVerifier(this.appId);
+
         const body = {
             "client_id": this.config.clientId,
-            "client_secret": this.config.clientSecret,
             "grant_type": "authorization_code",
             "code": code,
+            "code_verifier": codeVerifier,
         }
 
         if (redirectURL) {
@@ -59,19 +68,37 @@ export class OauthService extends AxiosClient {
             .post(url, body, headers)
             .then((response) => {
                 console.debug("Returned response from client : " + JSON.stringify({url, response:response.data}, null, 2));
-                console.debug("+++++++++++++++++++++++++++++ " + response.data);
+
+                const tokenObject = {
+                    "access_token": response.data.access_token,
+                    "refresh_token": response.data.refresh_token 
+                }
+                const localStorageService = new LocalStorageService();
+                localStorageService.setTokens(tokenObject);
+                console.debug("Returned tokens successfully stored.");
             })
             .catch((error) => {
                 super.handlePromiseError(error);
             })
 
-}
+    }
 
-    getAuthorizeUrl(redirectURL) {
+    getPKCEAuthorizeUrl(redirectURL) {
+
+        const codeVerifier = this.getCodeVerifier();
+        const codeChallenge = this.getCodeChallenge(codeVerifier);
+
+        console.debug("Generated codeChallenge : " + codeChallenge);
+
+        //Initializing local storage
+        const localStorageService = new LocalStorageService();
+        localStorageService.clear(this.appId);
+        localStorageService.setVerifier(this.appId, codeVerifier);
 
         const authorizeURLWithParams = new URL(this.config.authorizeURL);
         authorizeURLWithParams.searchParams.append("client_id", this.config.clientId);
         authorizeURLWithParams.searchParams.append("response_type", 'code');
+        authorizeURLWithParams.searchParams.append("code_challenge", codeChallenge);
 
         this.appendRedirectUri(authorizeURLWithParams, redirectURL);
 
@@ -106,6 +133,26 @@ export class OauthService extends AxiosClient {
         }
         urlObject.searchParams.append("redirect_uri", finalRedirectURL);
 
+    }
+
+    getCodeVerifier() {
+
+        var length = 12;
+        var verifier  = "";
+        var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < length; i++) {
+            verifier  += dictionary.charAt(Math.floor(Math.random() * dictionary.length));
+        }
+
+        return verifier;
+    }
+
+    getCodeChallenge(verifier){
+
+        var code = Utf8.parse(verifier);
+        var codeSHA256 = sha256(code);
+
+        return Base64URL.stringify(codeSHA256);
     }
 
 }

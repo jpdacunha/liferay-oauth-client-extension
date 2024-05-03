@@ -1,8 +1,12 @@
 apim-oauth-application-user-agent:
     .serviceAddress: apim.dev.local:8800
     .serviceScheme: http
+    # clientSecret: secret-e0951d91-734b-9881-55f6-bf7cfdc266a
     name: APIM OAuth Application User Agent
     scopes:
         - liferay-json-web-services.apim.httpbin.mock.read
         - liferay-json-web-services.apim.communes.read
     type: oAuthApplicationUserAgent
+    description: Oauth configuration to leverage APIM services
+    # redirectURIs:
+        # - http://portal.dev.local:8080/o/oauth2/redirect/test

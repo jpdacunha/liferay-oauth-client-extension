@@ -23,7 +23,7 @@ export class ApimService extends AxiosClient {
 
     debugRoute() {
 
-        const url = this.endPointsApimUrls.DEBUG;
+        /*const url = this.endPointsApimUrls.DEBUG;
 
         return super.getAxiosInstance()
             .get(url)
@@ -33,7 +33,9 @@ export class ApimService extends AxiosClient {
             })
             .catch((error) => {
                 super.handlePromiseError(error);
-            })
+            })*/
+
+        return "To be deleted";
 
     }
 
