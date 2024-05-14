@@ -6,7 +6,7 @@ export class ApimClient {
 
     async _initializeClient() {
         
-        const oauthConfigName = 'apim-oauth-application-user-agent';
+        const oauthConfigName = 'app2-apim-oauth-application-user-agent';
         try {
 
             if (typeof(this.oAuth2Client) == 'undefined') {        

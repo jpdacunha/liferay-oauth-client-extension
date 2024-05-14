@@ -1,12 +1,28 @@
-apim-oauth-application-user-agent:
+#
+# Oauth clients applications declaration. 
+#
+# One declaration per application to be abble to have different authorized scopes per applications
+
+app2-apim-oauth-application-user-agent:
     .serviceAddress: apim.dev.local:8800
     .serviceScheme: http
-    # clientSecret: secret-e0951d91-734b-9881-55f6-bf7cfdc266a
-    name: APIM OAuth Application User Agent
+    name: APIM OAuth Application User Agent for APP2
     scopes:
         - liferay-json-web-services.apim.httpbin.mock.read
         - liferay-json-web-services.apim.communes.read
     type: oAuthApplicationUserAgent
-    description: Oauth configuration to leverage APIM services
+    description: Oauth configuration to leverage APIM services for APP2
+    # redirectURIs:
+        # - http://portal.dev.local:8080/o/oauth2/redirect/test
+
+app1-apim-oauth-application-user-agent:
+    .serviceAddress: apim.dev.local:8800
+    .serviceScheme: http
+    name: APIM OAuth Application User Agent for APP1
+    scopes:
+        - liferay-json-web-services.apim.httpbin.mock.read
+        - liferay-json-web-services.apim.communes.read
+    type: oAuthApplicationUserAgent
+    description: Oauth configuration to leverage APIM services for APP1
     # redirectURIs:
         # - http://portal.dev.local:8080/o/oauth2/redirect/test

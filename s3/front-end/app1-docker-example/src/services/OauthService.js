@@ -1,6 +1,6 @@
 import {AxiosClient} from './common/AxiosClient.js';
 import {Portal} from './common/Portal.js';
-import {LocalStorageService} from './common/LocalStorageService.js';
+import {StorageService} from './common/StorageService.js';
 import sha256 from 'crypto-js/sha256';
 import Base64URL from "crypto-js/enc-base64url"
 import Utf8 from "crypto-js/enc-utf8"
@@ -23,7 +23,8 @@ export class OauthService extends AxiosClient {
         const clientConfig = {
             "apiURL": "http://portal.dev.local:8800",
             "envId": "dev",
-            "headers": []
+            "headers": [],
+            "addToken": false
         }
 
         super(clientConfig);
@@ -36,7 +37,7 @@ export class OauthService extends AxiosClient {
         return this.config;
     }
 
-    exhangeForToken(code, redirectURL) {
+    async exhangeForToken(code, redirectURL) {
 
         const url = this.config.tokenURL;
 
@@ -46,8 +47,8 @@ export class OauthService extends AxiosClient {
             }
         };
 
-        const localStorageService = new LocalStorageService();
-        const codeVerifier = localStorageService.getVerifier(this.appId);
+        const storageService = new StorageService();
+        const codeVerifier = storageService.getVerifier(this.appId);
 
         const body = {
             "client_id": this.config.clientId,
@@ -73,8 +74,8 @@ export class OauthService extends AxiosClient {
                     "access_token": response.data.access_token,
                     "refresh_token": response.data.refresh_token 
                 }
-                const localStorageService = new LocalStorageService();
-                localStorageService.setTokens(tokenObject);
+
+                storageService.setTokens(tokenObject);
                 console.debug("Returned tokens successfully stored.");
             })
             .catch((error) => {
@@ -91,9 +92,9 @@ export class OauthService extends AxiosClient {
         console.debug("Generated codeChallenge : " + codeChallenge);
 
         //Initializing local storage
-        const localStorageService = new LocalStorageService();
-        localStorageService.clear(this.appId);
-        localStorageService.setVerifier(this.appId, codeVerifier);
+        const storageService = new StorageService();
+        storageService.clear(this.appId);
+        storageService.setVerifier(this.appId, codeVerifier);
 
         const authorizeURLWithParams = new URL(this.config.authorizeURL);
         authorizeURLWithParams.searchParams.append("client_id", this.config.clientId);

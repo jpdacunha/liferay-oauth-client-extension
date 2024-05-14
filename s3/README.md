@@ -74,20 +74,23 @@ Hit Save.
 
 Repeat operation for **OAUTH2_apim.communes.read**
 
-#### Update clientId and secret in front-end app
-Using control panel :
-1. Generate secret for configured client
-![Generate secret](./images/oauth2.0-secret.png "Generate secret")
+#### Create OAuth Client declaration for each app
 
-2. Copy clientId
+IMPORTANT NOTES : 
+* Authorization code flow with PKCE doesn't need a secret to work
+* APP2 uses Liferay OOTB client to work that is abble to automatically retrieve clientId from the configuration. No update is necessary to make app2 work.
+
+Using control panel (be aware of selecting APP1 configuration):
+
+1. Copy clientId
 ![ClientId](./images/oauth2.0-clientId.png "ClientId")
 
-3. Update APP1 
+2. Update APP1 
 Update Oauth 2.O App1 configuration : 
     a. Edit ./front-end/app1/src/services/ApimClient.js
     b. At the top of the class update json with clientId and secret 
 
-4. reBuild APP1
+3. reBuild APP1
 ```shell
 $ cd ./runtime-environment
 $ ./rebuildApp1.sh
@@ -102,7 +105,7 @@ Create page for app2 :
 1. Create page app2
 2. Under Remote Apps section drop App2 on the page
 
-####  Update callback URLs
+####  Update callback URLs in the two Oauth configurations
 Update callback URL according to create pages :
 ![CCallback URI](./images/oauth2.0-callbackuri.png "Callback URI")
 

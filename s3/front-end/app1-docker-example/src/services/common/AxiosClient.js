@@ -1,7 +1,7 @@
 
 
 import axios from 'axios';
-import {LocalStorageService} from './LocalStorageService.js';
+import {StorageService} from './StorageService.js';
 
 const NETWORK_ERROR = "Network Error";
 const DEV_ENV = "dev";
@@ -14,7 +14,10 @@ export class AxiosClient {
     headers;
     apiURL;
 
+
     constructor(clientConfig) {
+
+        console.log('Creating Rest Client using configuration : ' + JSON.stringify(clientConfig));
 
         const {apiURL, headers, envId} = clientConfig; 
 
@@ -33,7 +36,6 @@ export class AxiosClient {
             throw new Error("Invalid header : it is mandatory to provide a valid header");
         }         
         this.headers = headers;
-
         this._axiosInstance = this.createClient();
         
     }
@@ -62,12 +64,11 @@ export class AxiosClient {
             headers: this.headers, 
             withCredentials: true,
             timeout: 20000,
-
         }
 
-        const localStorageService = new LocalStorageService();
+        const storageService = new StorageService();
 
-        console.log('Creating Rest Client using configuration : ' + JSON.stringify(params));
+        console.log('Creating Axios Client using configuration : ' + JSON.stringify(params));
         const axiosApiInstance = axios.create(params);
 
         //Requesting Access Token
@@ -79,7 +80,7 @@ export class AxiosClient {
         axiosApiInstance.interceptors.request.use(
             (config) => {
 
-                const token = localStorageService.getAccessToken();
+                const token = storageService.getAccessToken();
 
                 if (token) {
                     config.headers['Authorization'] = 'Bearer ' + token;
