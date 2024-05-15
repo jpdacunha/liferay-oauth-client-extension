@@ -1,4 +1,5 @@
 import {AxiosClient} from './common/AxiosClient.js';
+import {StorageService} from './common/StorageService.js';
 
 export class ApimService extends AxiosClient {
 
@@ -7,7 +8,9 @@ export class ApimService extends AxiosClient {
         COMMUNES: "/communes",
      };
 
-    constructor() {
+     appId
+
+    constructor(appId) {
 
         console.log("Initializing APIM Service ...");
 
@@ -17,13 +20,17 @@ export class ApimService extends AxiosClient {
             "headers": ["Content-Type: application/json"]
         }
 
-        super(oAuth2ClientConfig);
+        const storageService = new StorageService(appId);
+        const authToken = storageService.getAccessToken();
+        super(oAuth2ClientConfig, authToken);
+
+        this.appId = appId;
 
     };
 
     debugRoute() {
 
-        /*const url = this.endPointsApimUrls.DEBUG;
+        const url = this.endPointsApimUrls.DEBUG;
 
         return super.getAxiosInstance()
             .get(url)
@@ -33,9 +40,7 @@ export class ApimService extends AxiosClient {
             })
             .catch((error) => {
                 super.handlePromiseError(error);
-            })*/
-
-        return "To be deleted";
+            })
 
     }
 

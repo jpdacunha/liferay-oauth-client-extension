@@ -1,38 +1,61 @@
 export class StorageService {
 
-    getVerifier(prefix) {
-        let key = this.getKey(prefix, '_code_verifier');
+    keys = { 
+        CODE_VERIFIER: "_code_verifier",
+        ACCESS_TOKEN: "_access_token",
+        REFRESH_TOKEN: "_refresh_token"
+     };
+
+     prefix
+
+     constructor(prefix) {
+        this.prefix = prefix;
+     }
+
+    getVerifier() {
+        let key = this.getKey(this.prefix, this.keys.CODE_VERIFIER);
         return sessionStorage.getItem(key);
     }
 
-    setVerifier(prefix, verifier) {
-        let key = this.getKey(prefix, '_code_verifier');
+    async setVerifier(verifier) {
+        let key = this.getKey(this.prefix, this.keys.CODE_VERIFIER);
         sessionStorage.setItem(key, verifier);
     }
 
-    setTokens(tokenObj) {
-        sessionStorage.setItem('access_token', tokenObj.access_token);
-        sessionStorage.setItem('refresh_token', tokenObj.refresh_token);
+    async setTokens(tokenObj) {
+
+        let key_access_token = this.getKey(this.prefix, this.keys.ACCESS_TOKEN);
+        sessionStorage.setItem(key_access_token, tokenObj.access_token);
+
+        let key_refresh_token = this.getKey(this.prefix, this.keys.REFRESH_TOKEN);
+        sessionStorage.setItem(key_refresh_token, tokenObj.refresh_token);
+
     }
 
     getAccessToken() {
-        return sessionStorage.getItem('access_token');
+        let key_access_token = this.getKey(this.prefix, this.keys.ACCESS_TOKEN);
+        return sessionStorage.getItem(key_access_token);
     }
 
     getRefreshToken() {
-        return sessionStorage.getItem('refresh_token');
+        let key_refresh_token = this.getKey(this.prefix, this.keys.REFRESH_TOKEN);
+        return sessionStorage.getItem(key_refresh_token);
     }
 
-    clear(prefix) {
+    async clear() {
         console.debug("Clearing storage ...");
         this.clearTokens();
-        let key = this.getKey(prefix, '_code_verifier');
+        let key = this.getKey(this.prefix, this.keys.CODE_VERIFIER);
         sessionStorage.removeItem(key);
     }
 
-    clearTokens() {
-        sessionStorage.removeItem('access_token');
-        sessionStorage.removeItem('refresh_token');
+    async clearTokens() {
+
+        let key_access_token = this.getKey(this.prefix, this.keys.ACCESS_TOKEN);
+        sessionStorage.removeItem(key_access_token);
+
+        let key_refresh_token = this.getKey(this.prefix, this.keys.REFRESH_TOKEN);
+        sessionStorage.removeItem(key_refresh_token);
     }
 
     getKey(prefix, key) {

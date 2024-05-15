@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import {ApimService} from '../services/ApimService.js';
 
-const Display = () => {
+const Display = ( props ) => {
 
     const [debugData, setDebugData] = React.useState(null);
-
+	const appId = props.appId;
+	
 	useEffect(() => {
 		async function fetchData() {
-
 			try {
-				const apimClient = new ApimService();
+				
+				const apimClient = new ApimService(appId);
 				const debugResponse = await apimClient.debugRoute();
 				setDebugData(debugResponse);
 
@@ -19,7 +20,7 @@ const Display = () => {
 
 		}
 		fetchData();
-	}, []);
+	}, [appId]);
 
 	return !debugData ? (
 		<div>Loading ...</div>

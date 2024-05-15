@@ -39,7 +39,7 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 
 # TODO
 - Verifyin token in APIM side -> Check that APIM reject calls if no token is passed (the App will not work anymore outside Liferay)
-- Etant donné que chaque app est sensée obtenir son token et que ce token est généré pour différents scopes
+- Etant donné que chaque app est sensée obtenir son token et que ce token est généré pour différents scopes. Comment faire en sorte qu'une app obtienne un token pour elle si 
 
 # TO SOLVE :
 - Automatic deployement ./gradlew deploy

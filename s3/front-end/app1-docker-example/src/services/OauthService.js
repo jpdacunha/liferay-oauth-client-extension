@@ -15,6 +15,7 @@ export class OauthService extends AxiosClient {
     }
 
     appId
+    storageService
 
     constructor(appId) {
 
@@ -27,14 +28,32 @@ export class OauthService extends AxiosClient {
             "addToken": false
         }
 
-        super(clientConfig);
+        super(clientConfig, null);
 
         this.appId = appId;
+        this.storageService = new StorageService(appId);
 
     }
 
     getOauthConfiguration() {
         return this.config;
+    }
+
+    async redirectToLogin() {
+
+        const codeVerifier = this.getCodeVerifier();
+        console.debug("Generated codeVerifier : " + codeVerifier);
+
+        const codeChallenge = this.getCodeChallenge(codeVerifier);
+        console.debug("Generated codeChallenge : " + codeChallenge);
+
+        //Initializing local storage
+        await this.storageService.clear();
+        await this.storageService.setVerifier(codeVerifier);
+
+        const redirect = this.getPKCEAuthorizeUrl(codeChallenge, null);
+        console.debug("Redirecting to [" + redirect + "] ...")
+        window.location.href = redirect;
     }
 
     async exhangeForToken(code, redirectURL) {
@@ -47,8 +66,9 @@ export class OauthService extends AxiosClient {
             }
         };
 
-        const storageService = new StorageService();
-        const codeVerifier = storageService.getVerifier(this.appId);
+        const codeVerifier = this.storageService.getVerifier();
+
+        console.debug("codeVerifier : " + codeVerifier);
 
         const body = {
             "client_id": this.config.clientId,
@@ -67,15 +87,15 @@ export class OauthService extends AxiosClient {
 
         super.getAxiosInstance()
             .post(url, body, headers)
-            .then((response) => {
+            .then(async (response) => {
                 console.debug("Returned response from client : " + JSON.stringify({url, response:response.data}, null, 2));
 
                 const tokenObject = {
                     "access_token": response.data.access_token,
                     "refresh_token": response.data.refresh_token 
                 }
-
-                storageService.setTokens(tokenObject);
+                 this.storageService.clear();
+                await this.storageService.setTokens(tokenObject);
                 console.debug("Returned tokens successfully stored.");
             })
             .catch((error) => {
@@ -84,17 +104,7 @@ export class OauthService extends AxiosClient {
 
     }
 
-    getPKCEAuthorizeUrl(redirectURL) {
-
-        const codeVerifier = this.getCodeVerifier();
-        const codeChallenge = this.getCodeChallenge(codeVerifier);
-
-        console.debug("Generated codeChallenge : " + codeChallenge);
-
-        //Initializing local storage
-        const storageService = new StorageService();
-        storageService.clear(this.appId);
-        storageService.setVerifier(this.appId, codeVerifier);
+    getPKCEAuthorizeUrl(codeChallenge, redirectURL) {
 
         const authorizeURLWithParams = new URL(this.config.authorizeURL);
         authorizeURLWithParams.searchParams.append("client_id", this.config.clientId);

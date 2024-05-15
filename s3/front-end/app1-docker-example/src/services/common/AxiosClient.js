@@ -1,7 +1,6 @@
 
 
 import axios from 'axios';
-import {StorageService} from './StorageService.js';
 
 const NETWORK_ERROR = "Network Error";
 const DEV_ENV = "dev";
@@ -14,8 +13,7 @@ export class AxiosClient {
     headers;
     apiURL;
 
-
-    constructor(clientConfig) {
+    constructor(clientConfig, authorizationToken) {
 
         console.log('Creating Rest Client using configuration : ' + JSON.stringify(clientConfig));
 
@@ -36,7 +34,8 @@ export class AxiosClient {
             throw new Error("Invalid header : it is mandatory to provide a valid header");
         }         
         this.headers = headers;
-        this._axiosInstance = this.createClient();
+
+        this._axiosInstance = this.createClient(authorizationToken);
         
     }
 
@@ -44,7 +43,7 @@ export class AxiosClient {
         return this._axiosInstance;
     }
 
-    createClient() {
+    createClient(authorizationToken) {
 
         /*let selfSigned = false;
         if (this.envId === 'dev') {
@@ -66,8 +65,6 @@ export class AxiosClient {
             timeout: 20000,
         }
 
-        const storageService = new StorageService();
-
         console.log('Creating Axios Client using configuration : ' + JSON.stringify(params));
         const axiosApiInstance = axios.create(params);
 
@@ -80,10 +77,9 @@ export class AxiosClient {
         axiosApiInstance.interceptors.request.use(
             (config) => {
 
-                const token = storageService.getAccessToken();
-
-                if (token) {
-                    config.headers['Authorization'] = 'Bearer ' + token;
+                if (authorizationToken) {
+                    console.debug("Adding token [" + authorizationToken + "] to header"); 
+                    config.headers['Authorization'] = 'Bearer ' + authorizationToken;
                 } else {
                     console.debug("No authorization token provided"); 
                 }
@@ -106,7 +102,7 @@ export class AxiosClient {
         }
 
         if (error.message === NETWORK_ERROR && this.envId === DEV_ENV) {
-            console.error('Message', error.message + " : if you are working with self-signed certificate. You need to add an security exception on your browser (for example before using CARD & IAM interfaces).");
+            console.error('Message', error.message + " : if you are working with self-signed certificate. You need to add an security exception on your browser.");
         } else {
             console.error('Message', error.message);
         }
