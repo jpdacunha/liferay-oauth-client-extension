@@ -130,6 +130,14 @@ export class OauthService extends AxiosClient {
 
     }
 
+    isToken() {
+        const token = this.storageService.getAccessToken()
+        if (token) {
+            return true;
+        }
+        return false;
+    }
+
     isSignedIn() {
         return Portal.ThemeDisplay.isSignedIn();
     }
