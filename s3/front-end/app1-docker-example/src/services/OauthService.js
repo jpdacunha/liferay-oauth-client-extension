@@ -77,12 +77,15 @@ export class OauthService extends AxiosClient {
             "code_verifier": codeVerifier,
         }
 
+        let finalRedirectURL = null;
         if (redirectURL) {
-            body["redirect_uri"] = redirectURL
+            finalRedirectURL = redirectURL
         } else {
-            body["redirect_uri"] = this.getDefaultRedirectURL();
+            finalRedirectURL = this.getDefaultRedirectURL();
         }
 
+        body["redirect_uri"] = finalRedirectURL
+ 
         console.debug("Requesting [" + url + "] with code [" + code + "] for access token.")
 
         super.getAxiosInstance()
@@ -97,6 +100,9 @@ export class OauthService extends AxiosClient {
                  this.storageService.clear();
                 await this.storageService.setTokens(tokenObject);
                 console.debug("Returned tokens successfully stored.");
+
+                window.location.href = finalRedirectURL;
+
             })
             .catch((error) => {
                 super.handlePromiseError(error);

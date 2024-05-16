@@ -24,9 +24,6 @@ const AuthProvider = ( props ) => {
       
           console.debug("Exchanging for token ...")
           oauth.exhangeForToken(code);
-          /*const redirect = oauth.getDefaultRedirectURL();
-          //To avoid exchangeForToken() to be executed twice. We force redirection to default redirect URL 
-          window.location.href = redirect;*/
       
         } else if (!signedIn) {
       
