@@ -5,13 +5,13 @@ The aim of this project is to illustrate several scenarios available to perform 
 
 **CONTEXT** : SPA apps integrated in Liferay using front-end client extension (micro front-end) using back-end services protected by external APIM.
 
-There is several solution available to us :
+There is scenarions illustrated by the demonstrators :
 
-| Solution     | Title   | Links |
-| --------     | ------- | -------                                                        |
-| S1           | Unique domain                    | [Further information](./s1/README.md) |
-| S2           | Unique domain using web proxy    | [Further information](./s2/README.md) |
-| S3           | APIM validating token in Liferay | [Further information](./s3/README.md) |
+| Scenario     | Title   | Links |
+| --------     | ------- | -------                                                         |
+| S1           | Unique domain                     | [Further information](./s1/README.md) |
+| S2           | Unique domain using web proxy     | [Further information](./s2/README.md) |
+| S3           | APIM validating token in Liferay  | [Further information](./s3/README.md) |
 | S4           | Back End for Front-end            | [Further information](./s4/README.md) |
 
 ## Initial Setup
@@ -34,15 +34,3 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 * [Automatically deploy client extension as remote apps in Liferay]( https://liferay.dev/blogs/-/blogs/-front-end-client-extension-how-to-automate-deployments-for-remote-apps-in-on-premises)
 
 * [Reference resources as absolute path in ReactJS](https://dev.to/hidaytrahman/absolute-path-in-react-125h)
-
-
-
-# TODO
-- Verifyin token in APIM side -> Check that APIM reject calls if no token is passed (the App will not work anymore outside Liferay)
-- Etant donné que chaque app est sensée obtenir son token et que ce token est généré pour différents scopes. Comment faire en sorte qu'une app obtienne un token pour elle si 
-
-# TO SOLVE :
-- Automatic deployement ./gradlew deploy
-- Update Liferay Virtual Host Value automatically (Check if runing SQL scripts is possible in H2 container instead of Liferay)
-- Instance settings has client extension doesn't work
-- Simulator does not obtain access token using PKCE

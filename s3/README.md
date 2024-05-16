@@ -1,11 +1,4 @@
-# Solution 03 : APIM validating OAuth token in Liferay
-
-- Web component: utilizes the Liferay object Liferay.OAuth2Client.FromUserAgentApplication(custom scope).
-- Liferay OAuth2 client acts as an intermediary.
-- More precisely: an external client of type oAuthApplicationUserAgent on the custom scope.
-- In the Liferay admin, under Service Access policies, creating OAUTH2_(custom scope) allows creating a scope without additional development.
-- The condition is that the API manager validates the token with Liferay, using this scope. This effectively enables "forwarding" to a backend service with a different domain name.
-- Note: to achieve this, the token is temporarily stored in session storage.
+# Scenario 03 : APIM validating OAuth token in Liferay
 
 ```mermaid
 sequenceDiagram
@@ -24,6 +17,18 @@ sequenceDiagram
     APIM->>+Back End Service : Forwarding API call
     Back End Service-->>-Bob's browser: Returning datas to browser
 ```
+
+## IMPORTANT NOTES
+
+In this scenario Liferay is the main authorization servers (tokens are manages by Liferay). Front-end apps run in separate containers. 
+
+* Authorization code flow with PKCE doesn't need a secret to work
+* APP2 uses Liferay OOTB client to work that is abble to automatically retrieve clientId from the configuration. No code update is necessary to make app2 work.
+* Two apps hosted is separate containers are available in the stack
+    * Apps description :
+        * App1 : Using Liferays's OOTB client to interact with APIM
+        * App2 : Using custom Oauth client implementation to minimize coupling with Liferay
+    * The apps doesn't share token. Each apps stores tokens in sessions storage (one different token per app). This configuration allows application to leverage different oAuth configuration and independent scopes for each app.
 
 ## Setup
 
@@ -76,10 +81,6 @@ Repeat operation for **OAUTH2_apim.communes.read**
 
 #### Create OAuth Client declaration for each app
 
-IMPORTANT NOTES : 
-* Authorization code flow with PKCE doesn't need a secret to work
-* APP2 uses Liferay OOTB client to work that is abble to automatically retrieve clientId from the configuration. No update is necessary to make app2 work.
-
 Using control panel (be aware of selecting APP1 configuration):
 
 1. Copy clientId
@@ -106,18 +107,26 @@ Create page for app2 :
 2. Under Remote Apps section drop App2 on the page
 
 ####  Update callback URLs in the two Oauth configurations
-Update callback URL according to create pages :
+
+1. For APP1 oauth configuration
+Update callback URL according to created pages urls :
 ![CCallback URI](./images/oauth2.0-callbackuri.png "Callback URI")
 
 copy / paste the following in the field visible on screenshot above 
 
 ```code
 @protocol@://portal.dev.local@port-with-colon@/o/oauth2/redirect
-http://app1.dev.local:3000
 @protocol@://portal.dev.local@port-with-colon@/app1
-@protocol@://portal.dev.local@port-with-colon@/app2
 http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.local@port-with-colon@&client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd
-http://tester.dev.local/authorization_code?url=@protocol@://portal.dev.local@port-with-colon@&client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd
+```
+
+2. For APP2 oauth configuration
+Repeat APP1 operation using following URL's instead 
+
+```code
+@protocol@://portal.dev.local@port-with-colon@/o/oauth2/redirect
+@protocol@://portal.dev.local@port-with-colon@/app1
+http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.local@port-with-colon@&client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd
 ```
 
 ## Utils
@@ -146,4 +155,18 @@ http://tester.dev.local/authorization_code?url=@protocol@://portal.dev.local@por
 | APP1             | https://app1.dev.local:3000     | URL of first app declared has client extension on Liferay |
 | APP2             | https://app2.dev.local:3000     | URL of second app declared has client extension on Liferay |
 
-## Troubleshooting
+#### 4. TESTER
+
+| Service             | Title   | Links |
+| --------         | ------- | -------                                                        |
+| TESTER             | https://tester.dev.local     | Javascript client to test OAuth authorization code flow |
+
+## TODO
+- Verifying token in APIM side -> Check that APIM reject calls if no token is passed (the App will not work anymore outside Liferay).
+- Managing refresh token
+
+## TO SOLVE
+- Automatic deployement ./gradlew deploy
+- Update Liferay Virtual Host Value automatically
+- Instance settings has client extension doesn't work
+- Simulator does not obtain access token using PKCE (Invalid grant)
