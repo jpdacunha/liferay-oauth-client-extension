@@ -137,6 +137,7 @@ http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.loca
 
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
+| Kong GUI           | https://apim.dev.local:8002     | Kong administration |
 | Cities           | https://apim.dev.local:8443/cities      | Returned the headers of original request has a response |
 | Debug            | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
 

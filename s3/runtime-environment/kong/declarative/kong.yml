@@ -1,3 +1,12 @@
+  #
+  # TOKEN VALIDATION IS MISSING : Two option to validate tokens
+  # - Without making a call (signature verification) See : https://konghq.com/blog/engineering/jwt-kong-gateway
+  # https://github.com/callistaenterprise/kong-plugin-token-introspection
+  # https://docs.konghq.com/kubernetes-ingress-controller/latest/plugins/custom/
+  # - Using introspect endpoint. Sample here See : https://github.com/callistaenterprise/kong-plugin-token-introspection
+  #   NB : Community plugins are not compatible with last version of kong. Handling token validation using introspect endpoint need custom kong plugin implementation
+  #
+
 _format_version: "3.0"
 _transform: true
 
@@ -11,24 +20,6 @@ services:
       paths:
         - /debug
       strip_path: true
-  #
-  # Configure token validation here
-  # See : https://konghq.com/blog/engineering/jwt-kong-gateway
-  # plugins:
-  #   - name: jwt
-  #     service: httpbin_service
-  #     enabled: true
-  #     config:
-  #       key_claim_name: iss
-  #       claims_to_verify:
-  #       - exp
-  # consumers:
-  # - username: liferay_server_issuer
-  # jwt_secrets:
-  #   - consumer: liferay_server_issuer
-  #     secret: "e71829c351aa4242c2719cbfbe671c09"
-  #     algorithm: HS256
-  #     key: "http://my-issuer.com"
 - name: geo_api_gouv_service
   host: geo.api.gouv.fr
   port: 443

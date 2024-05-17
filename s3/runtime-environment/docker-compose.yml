@@ -27,8 +27,8 @@ services:
       - s3-liferay-osgi-modules:/opt/liferay/osgi/modules
       - s3-liferay-osgi-war:/opt/liferay/osgi/war
   s3-apim:
-    image: kong/kong-gateway:3.6.0.0
     container_name: s3-apim
+    image: kong/kong-gateway:3.6.0.0
     environment:
       KONG_DATABASE: off
       KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
@@ -51,6 +51,7 @@ services:
       - 8004:8004
     volumes:
       - ./kong/declarative:/kong/declarative/
+      - ./kong/plugins:/kong/plugins/
   s3-app1:
     container_name: s3-app1-react-docker
     build:
