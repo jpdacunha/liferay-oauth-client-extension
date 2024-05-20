@@ -4,8 +4,6 @@ services:
   s3-liferay:
     image: liferay/dxp:2024.q1.5
     container_name: s3-liferay
-    depends_on:
-       - s3-apim
     environment:
       LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY: 10
       LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES: 10

@@ -9,7 +9,7 @@ There is scenarions illustrated by the demonstrators :
 
 | Scenario     | Title   | Links |
 | --------     | ------- | -------                                                         |
-| S1           | Unique domain                     | [Further information](./s1/README.md) |
+| S1           | APIM validating token in keycloak | [Further information](./s1/README.md) |
 | S2           | Unique domain using web proxy     | [Further information](./s2/README.md) |
 | S3           | APIM validating token in Liferay  | [Further information](./s3/README.md) |
 | S4           | Back End for Front-end            | [Further information](./s4/README.md) |
@@ -27,6 +27,8 @@ Edit your system /etc/hosts and insert this lines. This setup simulate different
 127.0.0.1       apim.dev.local
 127.0.0.1       app1.dev.local
 127.0.0.1       app2.dev.local
+127.0.0.1       tester.dev.local
+127.0.0.1       sso.dev.local
 ```
 
 #References

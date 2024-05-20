@@ -1,0 +1,51 @@
+version: "3.7"
+name: s1-liferay-oauth-client-extension
+services:
+  s1-liferay:
+    image: liferay/dxp:2024.q1.5
+    container_name: s1-liferay
+    environment:
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY: 10
+      LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES: 10
+      LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m"
+    networks: 
+      - s1-network
+    ports: 
+      - 8080:8080
+      - 127.0.0.1:11311:11311
+    volumes:
+      - ./liferay-74/mount:/mnt/liferay
+      - s1-liferay-tools:/opt/liferay/tools
+      - s1-liferay-data:/opt/liferay/data
+      - s1-liferay-osgi-configs:/opt/liferay/osgi/configs
+      - s1-liferay-osgi-marketplace:/opt/liferay/osgi/marketplace
+      - s1-liferay-osgi-modules:/opt/liferay/osgi/modules
+      - s1-liferay-osgi-war:/opt/liferay/osgi/war 
+  s1-sso:
+    container_name: s1-sso
+    image: quay.io/keycloak/keycloak:18.0.2
+    entrypoint: /opt/keycloak/bin/kc.sh start-dev --import-realm
+    ports:
+    - 8180:8080
+    - 8443:8443
+    environment:
+    - KEYCLOAK_ADMIN=admin
+    - KEYCLOAK_ADMIN_PASSWORD=admin
+    - KC_HEALTH_ENABLED=true
+    - KC_METRICS_ENABLED=true
+    - KC_FEATURES=token-exchange
+    - KC_HOSTNAME=sso.dev.local
+    # volumes:
+    # - ./keycloak/config/phenix-ci-realm.json:/opt/keycloak/data/import/phenix-ci-realm.json
+    networks:
+    - s1-network 
+networks:
+  s1-network:
+    name: s1-network
+volumes:
+  s1-liferay-data:
+  s1-liferay-tools:
+  s1-liferay-osgi-configs:
+  s1-liferay-osgi-marketplace:
+  s1-liferay-osgi-modules:
+  s1-liferay-osgi-war:  
