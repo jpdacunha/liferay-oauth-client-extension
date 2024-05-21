@@ -10,9 +10,7 @@ There is scenarions illustrated by the demonstrators :
 | Scenario     | Title   | Links |
 | --------     | ------- | -------                                                         |
 | S1           | APIM validating token in keycloak | [Further information](./s1/README.md) |
-| S2           | Unique domain using web proxy     | [Further information](./s2/README.md) |
 | S3           | APIM validating token in Liferay  | [Further information](./s3/README.md) |
-| S4           | Back End for Front-end            | [Further information](./s4/README.md) |
 
 ## Initial Setup
 

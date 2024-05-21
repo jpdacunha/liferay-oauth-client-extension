@@ -3,7 +3,7 @@
   # - Without making a call (signature verification) See : https://konghq.com/blog/engineering/jwt-kong-gateway
   # https://github.com/callistaenterprise/kong-plugin-token-introspection
   # https://docs.konghq.com/kubernetes-ingress-controller/latest/plugins/custom/
-  # - Using introspect endpoint. Sample here See : https://github.com/callistaenterprise/kong-plugin-token-introspection
+  # - Using introspect endpoint. Sample here See :
   #   NB : Community plugins are not compatible with last version of kong. Handling token validation using introspect endpoint need custom kong plugin implementation
   #
 
