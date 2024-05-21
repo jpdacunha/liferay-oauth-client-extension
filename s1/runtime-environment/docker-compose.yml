@@ -11,7 +11,7 @@ services:
     networks: 
       - s1-network
     ports: 
-      - 8080:8080
+      - 18080:8080
       - 127.0.0.1:11311:11311
     volumes:
       - ./liferay-74/mount:/mnt/liferay
@@ -21,12 +21,14 @@ services:
       - s1-liferay-osgi-marketplace:/opt/liferay/osgi/marketplace
       - s1-liferay-osgi-modules:/opt/liferay/osgi/modules
       - s1-liferay-osgi-war:/opt/liferay/osgi/war 
+    depends_on:
+      - s1-sso
   s1-sso:
     container_name: s1-sso
     image: quay.io/keycloak/keycloak:18.0.2
     entrypoint: /opt/keycloak/bin/kc.sh start-dev --import-realm
     ports:
-    - 8180:8080
+    - 8080:8080
     - 8443:8443
     environment:
     - KEYCLOAK_ADMIN=admin
@@ -35,8 +37,11 @@ services:
     - KC_METRICS_ENABLED=true
     - KC_FEATURES=token-exchange
     - KC_HOSTNAME=sso.dev.local
-    # volumes:
-    # - ./keycloak/config/phenix-ci-realm.json:/opt/keycloak/data/import/phenix-ci-realm.json
+    - KEYCLOAK_ADMIN=admin
+    - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+     - ./keycloak/config/portal-realm.json:/opt/keycloak/data/import/portal-realm.json
+     - ./keycloak/exports/:/opt/keycloak/exports/
     networks:
     - s1-network 
 networks:

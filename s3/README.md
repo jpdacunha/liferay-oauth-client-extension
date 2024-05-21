@@ -137,7 +137,7 @@ http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.loca
 
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
-| Kong GUI           | https://apim.dev.local:8002     | Kong administration |
+| Kong GUI         | http://apim.dev.local:8002              | Kong administration |
 | Cities           | https://apim.dev.local:8443/cities      | Returned the headers of original request has a response |
 | Debug            | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
 
@@ -145,22 +145,21 @@ http://tester.dev.local/authorization_code_pkce?url=@protocol@://portal.dev.loca
 
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
-| Liferay           | https://portal.dev.local:8080      | URL of Liferay portal |
+| Liferay           | http://portal.dev.local:8080      | URL of Liferay portal |
 
 
 #### 3. APPS
 
-
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
-| APP1             | https://app1.dev.local:3000     | URL of first app declared has client extension on Liferay |
-| APP2             | https://app2.dev.local:3000     | URL of second app declared has client extension on Liferay |
+| APP1             | http://app1.dev.local:3000     | URL of first app declared has client extension on Liferay |
+| APP2             | http://app2.dev.local:3000     | URL of second app declared has client extension on Liferay |
 
 #### 4. TESTER
 
 | Service             | Title   | Links |
 | --------         | ------- | -------                                                        |
-| TESTER             | https://tester.dev.local     | Javascript client to test OAuth authorization code flow |
+| TESTER             | http://tester.dev.local     | Javascript client to test OAuth authorization code flow |
 
 ## TODO
 - Verifying token in APIM side -> Check that APIM reject calls if no token is passed (the App will not work anymore outside Liferay).

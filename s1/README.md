@@ -1,8 +1,23 @@
-# Solution 01 : Unique domain
+# Scenario 01 : APIM validating OAuth token in Keycloak
 
-- Imposing a single domain is a highly restrictive condition, yet relevant for SSO OIDC, OAuth2, or even SAML.
-- Web Component 1 performs its full-page redirection to the provider. At the end of the tunnel, the user returns with their token.
-- A micro-iframe can then be called for Web Component 2, which will benefit from this initial token (thanks to the single domain), without having to replay the authentication
+## Utils
+
+### 1. Exposed services
+
+#### 1. SSO
+
+| Service          | Title   | Links |
+| --------         | ------- | -------                                                        |
+| Liferay          | http://sso.dev.local:8080      | URL of Liferay portal |
+
+                                                
+#### 2. PORTAL
+
+| Service             | Title   | Links |
+| --------         | ------- | -------                                                        |
+| Liferay           | http://portal.dev.local:8080      | URL of Liferay portal |
+
+
 
 
 https://www.aimprosoft.com/blog/liferay-sso-integration/
