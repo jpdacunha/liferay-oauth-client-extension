@@ -30,3 +30,5 @@ services:
       paths:
         - /cities
       strip_path: true
+  plugins:
+      - name: oauth-tester
