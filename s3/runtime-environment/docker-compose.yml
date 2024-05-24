@@ -82,6 +82,15 @@ services:
       - 80:80
     volumes:
       - ./oauth-tester/conf.d:/etc/nginx/conf.d    
+  portainer-ce:
+    container_name: portainer
+    ports:
+        - 9443:9443
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - data:/data
+    restart: unless-stopped
+    image: portainer/portainer-ce:latest
 networks:
   s3-network:
     name: s3-network
@@ -92,3 +101,4 @@ volumes:
   s3-liferay-osgi-marketplace:
   s3-liferay-osgi-modules:
   s3-liferay-osgi-war:
+  data:
