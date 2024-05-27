@@ -3,40 +3,43 @@ local typedefs = require "kong.db.schema.typedefs"
 
 local PLUGIN_NAME = "oauth-liferay-introspect"
 
+local typedefs = require "kong.db.schema.typedefs"
+local url = require "socket.url"
+local function validate_url(value)
+  local parsed_url = url.parse(value)
+  if parsed_url and parsed_url.scheme and parsed_url.host then
+    parsed_url.scheme = parsed_url.scheme:lower()
+    if not (parsed_url.scheme == "http" or parsed_url.scheme == "https") then
+      return false, "Supported protocols are HTTP and HTTPS"
+    end
+  end
+
+  return true
+end
 
 local schema = {
   name = PLUGIN_NAME,
   fields = {
-    -- the 'fields' array is the top-level entry with fields defined by Kong
-    { consumer = typedefs.no_consumer },  -- this plugin cannot be configured on a consumer (typical for auth plugins)
+    { consumer = typedefs.no_consumer },
     { protocols = typedefs.protocols_http },
-    { config = {
-        -- The 'config' record is the custom part of the plugin schema
+    {
+      config = {
         type = "record",
         fields = {
-          -- a standard defined field (typedef), with some customizations
-          { request_header = typedefs.header_name {
-              required = true,
-              default = "Hello-World" } },
-          { response_header = typedefs.header_name {
-              required = true,
-              default = "Bye-World" } },
-          { ttl = { -- self defined field
-              type = "integer",
-              default = 600,
-              required = true,
-              gt = 0, }}, -- adding a constraint for the value
-        },
-        entity_checks = {
-          -- add some validation rules across fields
-          -- the following is silly because it is always true, since they are both required
-          { at_least_one_of = { "request_header", "response_header" }, },
-          -- We specify that both header-names cannot be the same
-          { distinct = { "request_header", "response_header"} },
-        },
-      },
-    },
-  },
+          { introspection_endpoint = { type = "string", required = true, custom_validator = validate_url } },
+          { introspection_ssl_verify = { type = "boolean", required = true, default = true } },
+          { client_id = { type = "string", required = true } },
+          { token_header = { type = "string", required = true, default = "Authorization" } },
+          { hide_credentials = { type = "boolean", required = true, default = true } },
+          { allow_anonymous = { type = "boolean", required = true, default = false } },
+          { ttl = { type = "number", required = true, default = 30 } },
+          { scope = { type = "array", elements = { type = "string" }, required = false } },
+          { certificate_header = { type = "string", required = false } },
+          { custom_claims_forward = { type = "array", elements = { type = "string" }, required = false } }
+        }
+      }
+    }
+  }
 }
 
 return schema
