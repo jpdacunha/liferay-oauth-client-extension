@@ -31,4 +31,4 @@ services:
         - /cities
       strip_path: true
   plugins:
-      - name: oauth-tester
+      - name: oauth-liferay-introspect

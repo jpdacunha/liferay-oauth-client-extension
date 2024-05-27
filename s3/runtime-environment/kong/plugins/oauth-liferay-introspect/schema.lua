@@ -1,7 +1,7 @@
 local typedefs = require "kong.db.schema.typedefs"
 
 
-local PLUGIN_NAME = "oauth-tester"
+local PLUGIN_NAME = "oauth-liferay-introspect"
 
 
 local schema = {
