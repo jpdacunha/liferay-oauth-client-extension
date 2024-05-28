@@ -1,22 +1,22 @@
-local OauthLiferayIntrospect = {
-  VERSION  = "1.0.0",
-  PRIORITY = 10,
-}
-
 local utils = require("kong.plugins.oauth-liferay-introspect.utils")
 local http = require "resty.http"
 local x509 = require "resty.openssl.x509"
 local b64 = require("ngx.base64")
 local cjson = require "cjson.safe"
+local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
   local res, err = http:new():request_uri(config.introspection_endpoint, {
     ssl_verify = config.introspection_ssl_verify,
     method = "POST",
-    body = "token_type_hint=access_token&token=" .. access_token
-        .. "&client_id=" .. config.client_id,
-    headers = { ["Content-Type"] = "application/x-www-form-urlencoded" }
+    -- body = "token_type_hint=access_token&token=" .. access_token
+    --     .. "&client_id=" .. config.client_id
+    --     .. "&client_secret=" .. config.client_secret,
+    headers = {
+      ["Content-Type"] = "application/x-www-form-urlencoded",
+      ["Authorization"] = "Bearer " .. access_token
+    }
   })
 
   if not res then
@@ -94,12 +94,13 @@ local function verify_scope(required_scope, scope)
   return true
 end
 
-function OauthLiferayIntrospect:new()
-  OauthLiferayIntrospect.super.new(self, "oauth-liferay-introspect")
-end
+local TokenIntrospectionHandler = {
+ VERSION = kong_meta.version:sub(1, -2),
+  -- VERSION = "1.0.0",
+  PRIORITY = 1100,
+}
 
-function OauthLiferayIntrospect:access(config)
-  OauthLiferayIntrospect.super.access(self)
+function TokenIntrospectionHandler:access(config)
   local bearer_token = utils.get_header(config.token_header)
   if not bearer_token then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "Unauthenticated.")
@@ -157,4 +158,4 @@ function OauthLiferayIntrospect:access(config)
   end
 end
 
-return OauthLiferayIntrospect
+return TokenIntrospectionHandler

@@ -33,8 +33,13 @@ services:
         - /cities
       strip_path: true
   plugins: 
-    - name: oauth-liferay-introspect
-      config:
-        introspection_endpoint: http://apim.dev.local/get
-        client_id: id-2ede2606-9967-e3af-db74-4d94c68ebd
-        token_header : Bearer eyJ0eXAiOiJhdCtqd3QiLCJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJkY2Y1ZWU1YTNiZmQ1ZTcyMWYyYmU4YmE5YmVlODVmYzc5ZTdkZjkyZmJjZDFlNmVhNDM3NDQ1ZTgyMDQzZTgiLCJjbGllbnRfaWQiOiJpZC0yZWRlMjYwNi05OTY3LWUzYWYtZGI3NC00ZDk0YzY4ZWJkIiwiaWF0IjoxNzE2ODIyNTg0LCJleHAiOjE3MTY4MjMxODQsInN1YiI6IjIwMTIyIiwidXNlcm5hbWUiOiJ0ZXN0IiwiaXNzIjoicG9ydGFsLmRldi5sb2NhbCIsInNjb3BlIjoibGlmZXJheS1qc29uLXdlYi1zZXJ2aWNlcy5hcGltLmNvbW11bmVzLnJlYWQgbGlmZXJheS1qc29uLXdlYi1zZXJ2aWNlcy5hcGltLmh0dHBiaW4ubW9jay5yZWFkIiwiZ3JhbnRfdHlwZSI6ImF1dGhvcml6YXRpb25fY29kZSIsImF1dGhvcml6YXRpb25fY29kZSI6IjM1ZjhiZDRiZGY4M2RlODIyYTdjM2MwYmU4MjFjNDFhZWQ4MjYzNGI2NzJhNDJjOTMxMmI2OTkyZDZhY2E1OTIiLCJjb2RlX3ZlcmlmaWVyIjoiQ012Q213dTVXdEtoIn0.BHO8sI8u090r59xdgMtr9QsOAfaoul-Fl9yv231xgE2WZHFeQXD4QaYBrVyaNWNKKqHlWBv6qgKVXruVTqPSR0ajPcjKfTNIMzKpd0UBDHNgQ5oS8qZYkj9-MnABoM5ZKV49Qgq9j477h43g0bztGhNigELOWcM2ROtDJeWQ7NJFEiLgtzgzkjQxq0P5aZLvolHHgtzYp4fYPfUIjsq-Wn1hb3BUF6fknvLd7NE_WAG7Qes9iu4YjqBOlusYWHHdXkDN4ivRVyKbQqtiLZnkOaGjuQzekThNGFZESaGEw3rUl5ldkpjrQDMHTfCxttwYMPKurwbdgGbTVpk3DPcdxg
+  - name: oauth-liferay-introspect
+    config:
+      introspection_endpoint: https://host.docker.internal:9443/realms/test/protocol/openid-connect/token/introspect
+      client_id: introspection-client
+      certificate_header: "x-client-cert"
+  routes:
+  - name: access-token-mtls-route
+    paths:
+    - /token-mtls/
+    strip_path: true
