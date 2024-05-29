@@ -7,18 +7,20 @@ local kong_meta = require "kong.meta"
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
+  kong.log("function ", "do_introspect_access_token")
+    kong.log("access_token ", access_token)
   local res, err = http:new():request_uri(config.introspection_endpoint, {
     ssl_verify = config.introspection_ssl_verify,
     method = "POST",
-    -- body = "token_type_hint=access_token&token=" .. access_token
-    --     .. "&client_id=" .. config.client_id
-    --     .. "&client_secret=" .. config.client_secret,
+    body = "token_type_hint=access_token&token=" .. access_token
+        .. "&client_id=" .. config.client_id,
     headers = {
       ["Content-Type"] = "application/x-www-form-urlencoded",
-      ["Authorization"] = "Bearer " .. access_token
+      ["Accept"] = "application/json "
     }
   })
-
+  kong.log("RESPONSE ", res)
+  kong.log("ERR ", err)
   if not res then
     return nil, err
   end
@@ -31,9 +33,11 @@ end
 -- get cached token introspection result if available, or retrieve new token introspection result
 local function introspect_access_token(access_token, config)
   if config.ttl > 0 then
+    kong.log("function ", "introspect_access_token", "ttl+0")
     local res, err = kong.cache:get(access_token, { ttl = config.ttl },
         do_introspect_access_token, access_token, config)
     if err then
+      kong.log("invalidate ", "token")
       kong.cache:invalidate(access_token)
       utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Unexpected error: " .. err)
     end
@@ -101,7 +105,10 @@ local TokenIntrospectionHandler = {
 }
 
 function TokenIntrospectionHandler:access(config)
+  kong.log("function ", "TokenIntrospectionHandler")
   local bearer_token = utils.get_header(config.token_header)
+  kong.log("config ", config)
+  kong.log("bearer_token ", bearer_token)
   if not bearer_token then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "Unauthenticated.")
   end
@@ -157,5 +164,7 @@ function TokenIntrospectionHandler:access(config)
     utils.clear_header(config.certificate_header)
   end
 end
+
+kong.log("hello ", "world")
 
 return TokenIntrospectionHandler
