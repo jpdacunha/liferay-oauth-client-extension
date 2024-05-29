@@ -5,12 +5,13 @@ local b64 = require("ngx.base64")
 local cjson = require "cjson.safe"
 local kong_meta = require "kong.meta"
 
+-- TODO: find why POST request doesn't work 
+
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
   kong.log("function ", "do_introspect_access_token")
-    kong.log("access_token ", access_token)
+  kong.log("access_token ", access_token)
   local res, err = http:new():request_uri(config.introspection_endpoint, {
-    ssl_verify = config.introspection_ssl_verify,
     method = "POST",
     body = "token_type_hint=access_token&token=" .. access_token
         .. "&client_id=" .. config.client_id,
@@ -107,7 +108,6 @@ local TokenIntrospectionHandler = {
 function TokenIntrospectionHandler:access(config)
   kong.log("function ", "TokenIntrospectionHandler")
   local bearer_token = utils.get_header(config.token_header)
-  kong.log("config ", config)
   kong.log("bearer_token ", bearer_token)
   if not bearer_token then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "Unauthenticated.")

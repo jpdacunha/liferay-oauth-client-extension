@@ -27,7 +27,7 @@ local schema = {
         type = "record",
         fields = {
           { introspection_endpoint = { type = "string", required = true, custom_validator = validate_url } },
-          { introspection_ssl_verify = { type = "boolean", required = true, default = true } },
+          { introspection_ssl_verify = { type = "boolean", required = false, default = false } },
           { client_id = { type = "string", required = true } },
           { client_secret = { type = "string", required = false } },
           { token_header = { type = "string", required = true, default = "Authorization" } },
