@@ -7,7 +7,7 @@
   #   NB : Community plugins are not compatible with last version of kong. Handling token validation using introspect endpoint need custom kong plugin implementation
   #
 
-  # Dummy configuration, TODO: correct when plugin OK
+  # TODO: Find a way to have 1 plugin configuration that works on the 2 services
 
 _format_version: "3.0"
 _transform: true
@@ -28,6 +28,13 @@ services:
       introspection_endpoint: http://portal.dev.local:8080/o/oauth2/introspect
       client_id: id-2ede2606-9967-e3af-db74-4d94c68ebd
     enabled: true
+  - name: cors
+    config:
+      origins:
+        - '^http://.*$'
+      credentials: true
+      max_age: 3600
+      preflight_continue: false
 - name: geo_api_gouv_service
   host: geo.api.gouv.fr
   port: 443

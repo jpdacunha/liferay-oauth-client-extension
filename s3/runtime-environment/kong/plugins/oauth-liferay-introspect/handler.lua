@@ -1,3 +1,11 @@
+-- curl -X POST 'http://portal.dev.local:8080/o/oauth2/introspect' \
+--      -H 'Content-Type: application/x-www-form-urlencoded' \
+--      -d 'client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd' \
+--      -d 'token={access_token}' \
+--      -d 'token_type_hint=access_token'
+-- replace {access_token} by the one from liferay session storage
+
+
 local utils = require("kong.plugins.oauth-liferay-introspect.utils")
 local http = require "resty.http"
 local x509 = require "resty.openssl.x509"
@@ -5,7 +13,7 @@ local b64 = require("ngx.base64")
 local cjson = require "cjson.safe"
 local kong_meta = require "kong.meta"
 
--- TODO: find why POST request doesn't work 
+-- TODO: find a way to access the liferay access token to include it in the http call
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
@@ -17,7 +25,6 @@ local function do_introspect_access_token(access_token, config)
         .. "&client_id=" .. config.client_id,
     headers = {
       ["Content-Type"] = "application/x-www-form-urlencoded",
-      ["Accept"] = "application/json "
     }
   })
   kong.log("RESPONSE ", res)
