@@ -1,17 +1,9 @@
--- curl -X POST 'http://portal.dev.local:8080/o/oauth2/introspect' \
---      -H 'Content-Type: application/x-www-form-urlencoded' \
---      -d 'client_id=id-2ede2606-9967-e3af-db74-4d94c68ebd' \
---      -d 'token={access_token}' \
---      -d 'token_type_hint=access_token'
--- replace {access_token} by the one from liferay session storage
-
-
 local utils = require("kong.plugins.oauth-liferay-introspect.utils")
 local http = require "resty.http"
 local cjson = require "cjson.safe"
 local kong_meta = require "kong.meta"
 
--- TODO: find a way to access the liferay access token to include it in the http call
+-- TODO: find why Response = nil
 
 -- issue token introspection request
 local function do_introspect_access_token(access_token, config)
@@ -38,28 +30,27 @@ end
 
 -- get cached token introspection result if available, or retrieve new token introspection result
 local function introspect_access_token(access_token, config)
-  if config.ttl > 0 then
-    kong.log("function ", "introspect_access_token", "ttl+0")
-    local res, err = kong.cache:get(access_token, { ttl = config.ttl },
-        do_introspect_access_token, access_token, config)
-    if err then
-      kong.log("invalidate ", "token")
-      kong.cache:invalidate(access_token)
-      utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Unexpected error: " .. err)
-    end
-    if res.status ~= 200 then
-      kong.cache:invalidate(access_token)
-    end
-    return res
-  else
+  -- if config.ttl > 0 then
+  --   kong.log("function ", "introspect_access_token", "ttl+0")
+  --   local res, err = kong.cache:get(access_token, { ttl = config.ttl },
+  --       do_introspect_access_token, access_token, config)
+  --   if err then
+  --     kong.log("invalidate ", "token")
+  --     kong.cache:invalidate(access_token)
+  --     utils.exit(ngx.HTTP_INTERNAL_SERVER_ERROR, "Unexpected error: " .. err)
+  --   end
+  --   if res.status ~= 200 then
+  --     kong.cache:invalidate(access_token)
+  --   end
+  --   return res
+  -- else
     return do_introspect_access_token(access_token, config)
-  end
+  -- end
 end
 
 local TokenIntrospectionHandler = {
  VERSION = kong_meta.version:sub(1, -2),
-  -- VERSION = "1.0.0",
-  PRIORITY = 1100,
+ PRIORITY = 1100,
 }
 
 function TokenIntrospectionHandler:access(config)

@@ -22,19 +22,6 @@ services:
       paths:
         - /debug
       strip_path: true
-  plugins: 
-  - name: oauth-liferay-introspect
-    config:
-      introspection_endpoint: http://portal.dev.local:8080/o/oauth2/introspect
-      client_id: id-2ede2606-9967-e3af-db74-4d94c68ebd
-    enabled: true
-  - name: cors
-    config:
-      origins:
-        - '^http://.*$'
-      credentials: true
-      max_age: 3600
-      preflight_continue: false
 - name: geo_api_gouv_service
   host: geo.api.gouv.fr
   port: 443
@@ -45,9 +32,14 @@ services:
       paths:
         - /cities
       strip_path: true
-  plugins: 
+plugins: 
   - name: oauth-liferay-introspect
     config:
       introspection_endpoint: http://portal.dev.local:8080/o/oauth2/introspect
       client_id: id-2ede2606-9967-e3af-db74-4d94c68ebd
     enabled: true
+  - name: cors
+    config:
+      origins:
+        - '^http://.*$'
+      credentials: true
