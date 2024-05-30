@@ -27,17 +27,11 @@ local schema = {
         type = "record",
         fields = {
           { introspection_endpoint = { type = "string", required = true, custom_validator = validate_url } },
-          { introspection_ssl_verify = { type = "boolean", required = false, default = false } },
           { client_id = { type = "string", required = true } },
-          { client_secret = { type = "string", required = false } },
           { token_header = { type = "string", required = true, default = "Authorization" } },
           { hide_credentials = { type = "boolean", required = true, default = true } },
           { allow_anonymous = { type = "boolean", required = true, default = false } },
           { ttl = { type = "number", required = true, default = 30 } },
-          { scope = { type = "array", elements = { type = "string" }, required = false } },
-          { certificate_header = { type = "string", required = false } },
-          { custom_claims_forward = { type = "array", elements = { type = "string" }, required = false } },
-          { priority = { type = "number", required = true, default = 0 } }
         }
       }
     }

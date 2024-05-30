@@ -8,8 +8,6 @@
 
 local utils = require("kong.plugins.oauth-liferay-introspect.utils")
 local http = require "resty.http"
-local x509 = require "resty.openssl.x509"
-local b64 = require("ngx.base64")
 local cjson = require "cjson.safe"
 local kong_meta = require "kong.meta"
 
@@ -58,54 +56,6 @@ local function introspect_access_token(access_token, config)
   end
 end
 
--- get sha256 digest from uri-encoded pem certificate
-local function get_digest(encoded_certificate)
-  local pem, err = ngx.unescape_uri(encoded_certificate)
-  if err then
-    return nil, "invalid certificate: " .. err
-  end
-  local certificate, err = x509.new(pem, "PEM")
-  if err then
-    return nil, "invalid certificate: " .. err
-  end
-  local digest, err = certificate:digest("SHA256")
-  if err then
-    return nil, "cannot create digest: " .. err
-  end
-  return digest
-end
-
--- verify that client certificate digest matches digest from bounded access token
-local function verify_certificate(encoded_digest, certificate_header)
-  local required_digest, err = b64.decode_base64url(encoded_digest)
-  if err then
-    return false
-  end
-  if not certificate_header then
-    return false
-  end
-  local certificate = utils.get_header(certificate_header)
-  if not certificate then
-    return false
-  end
-  local digest, err = get_digest(certificate)
-  if err then
-    return false
-  end
-  return required_digest == digest
-end
-
--- verify that access token contains required scopes
-local function verify_scope(required_scope, scope)
-  local scopeSet = utils.as_set(scope)
-  for _, required in ipairs(required_scope) do
-    if not scopeSet[required] then
-      return false
-    end
-  end
-  return true
-end
-
 local TokenIntrospectionHandler = {
  VERSION = kong_meta.version:sub(1, -2),
   -- VERSION = "1.0.0",
@@ -132,23 +82,7 @@ function TokenIntrospectionHandler:access(config)
   if introspection_response.status ~= 200 then
     utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
   end
-  -- decode into jwt token
-  local jwt = cjson.decode(introspection_response.body)
-  if not jwt.active then
-    utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
-  end
-  -- If token is bound to client certificate, validate the binding
-  if jwt.cnf and jwt.cnf["x5t#S256"] then
-    if not config.certificate_header or not verify_certificate(jwt.cnf["x5t#S256"], config.certificate_header) then
-      utils.exit(ngx.HTTP_UNAUTHORIZED, "The resource owner or authorization server denied the request.")
-    end
-  end
-  -- If specific scopes are required, validate that the token contains the required scopes
-  if config.scope then
-    if not verify_scope(config.scope, jwt.scope) then
-      utils.exit(ngx.HTTP_FORBIDDEN, "The resource owner or authorization server denied the request.")
-    end
-  end
+
   -- Authorization successful, set headers based on information from access token
   utils.set_header("X-Credential-Scope", jwt.scope)
   utils.set_header("X-Credential-Client-ID", jwt.clientId)
@@ -160,11 +94,7 @@ function TokenIntrospectionHandler:access(config)
   utils.set_header("X-Credential-Aud", jwt.aud)
   utils.set_header("X-Credential-Iss", jwt.iss)
   utils.set_header("X-Credential-Jti", jwt.jti)
-  if config.custom_claims_forward then
-    for _, claim in ipairs(config.custom_claims_forward) do
-      utils.set_header("X-Credential-" .. claim, jwt[claim])
-    end
-  end
+  
   -- Optionally remove token and certificate headers
   if config.hide_credentials then
     utils.clear_header(config.token_header)
