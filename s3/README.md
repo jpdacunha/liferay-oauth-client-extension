@@ -83,13 +83,16 @@ Repeat operation for **OAUTH2_apim.communes.read**
 
 Using control panel (be aware of selecting APP1 configuration):
 
-1. Copy clientId
-![ClientId](./images/oauth2.0-clientId.png "ClientId")
 
-2. Update APP1 
-Update Oauth 2.O App1 configuration : 
-    a. Edit ./front-end/app1/src/services/ApimClient.js
-    b. At the top of the class update json with clientId and secret 
+
+1. Copy clientId in APP1
+Copy Oauth 2.O App1 configuration : 
+    a. Edit ./front-end/app1/src/services/OauthService.js
+    b. At the top of the class copy json with clientId
+
+2. Paste clientId
+![ClientId](./images/oauth2.0-clientId.png "ClientId") 
+> in Controle Panel/Security/OAuth 2 Administration/APIM OAuth Application User Agent for APP1
 
 3. reBuild APP1
 ```shell

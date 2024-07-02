@@ -35,7 +35,8 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
-      KONG_ADMIN_GUI_URL: http://localhost:8002
+      KONG_ADMIN_GUI_URL: http://apim.dev.local:8002
+      KONG_PLUGINS: bundled,oauth-liferay-introspect
     networks: 
       - s3-network
     ports: 
@@ -82,6 +83,15 @@ services:
       - 80:80
     volumes:
       - ./oauth-tester/conf.d:/etc/nginx/conf.d    
+  portainer-ce:
+    container_name: portainer
+    ports:
+        - 9443:9443
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - data:/data
+    restart: unless-stopped
+    image: portainer/portainer-ce:latest
 networks:
   s3-network:
     name: s3-network
@@ -92,3 +102,4 @@ volumes:
   s3-liferay-osgi-marketplace:
   s3-liferay-osgi-modules:
   s3-liferay-osgi-war:
+  data:
