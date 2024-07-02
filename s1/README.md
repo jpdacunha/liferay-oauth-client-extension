@@ -8,14 +8,14 @@
 
 | Service          | Title   | Links |
 | --------         | ------- | -------                                                        |
-| Liferay          | http://sso.dev.local:8080      | URL of Liferay portal |
+| KeyCloak (SSO)   | http://sso.dev.local:8080      | URL of SSO server |
 
                                                 
 #### 2. PORTAL
 
 | Service             | Title   | Links |
-| --------         | ------- | -------                                                        |
-| Liferay           | http://portal.dev.local:8080      | URL of Liferay portal |
+| --------            | ------- | -------                                                        |
+| Liferay             | http://portal.dev.local:18080      | URL of Liferay portal |
 
 
 

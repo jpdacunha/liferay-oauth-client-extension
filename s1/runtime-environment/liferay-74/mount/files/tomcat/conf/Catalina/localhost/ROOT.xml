@@ -9,16 +9,16 @@
 	<!--<RealmclassName="org.apache.catalina.realm.JAASRealm"appName="PortalRealm"userClassNames="com.liferay.portal.kernel.security.jaas.PortalPrincipal"roleClassNames="com.liferay.portal.kernel.security.jaas.PortalRole"/>-->
 
 	<!-- MYSQL DATASOURCE -->
-	<!-- <Resource 
+	<Resource 
 		name="jdbc/LiferayPool" 
 		auth="Container" 
 		type="javax.sql.DataSource" 
 		driverClassName="com.mysql.cj.jdbc.Driver" 
-		url="jdbc:mysql://mysql/lportal74?useUnicode=true&amp;characterEncoding=UTF-8" 
+		url="jdbc:mysql://s1-db/s1lportal?useUnicode=true&amp;characterEncoding=UTF-8" 
 		username="root" 
 		password="password" 
 		maxActive="20"
 		validationQuery="Select 1" 
-	/> -->
+	/>
 
 </Context>
