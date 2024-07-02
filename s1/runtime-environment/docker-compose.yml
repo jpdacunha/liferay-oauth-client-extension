@@ -52,8 +52,6 @@ services:
     - KC_METRICS_ENABLED=true
     - KC_FEATURES=token-exchange
     - KC_HOSTNAME=sso.dev.local
-    - KEYCLOAK_ADMIN=admin
-    - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
      - ./keycloak/config/portal-realm.json:/opt/keycloak/data/import/portal-realm.json
      - ./keycloak/exports:/opt/keycloak/exports
