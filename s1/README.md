@@ -26,6 +26,7 @@
 
 ## TOTO
 * Healthcheck in docker compose
+* Delete unused identity provider an réexport realm
 
 
 https://www.aimprosoft.com/blog/liferay-sso-integration/
