@@ -2,6 +2,7 @@ version: "3.7"
 name: s1-liferay-oauth-client-extension
 services:
   s1-liferay:
+    hostname: portal.dev.local
     image: liferay/dxp:2024.q1.5
     container_name: s1-liferay
     environment:
@@ -25,6 +26,7 @@ services:
       - s1-sso
       - s1-db
   s1-db:
+    hostname: s1-db
     image: mysql:5.7.29
     container_name: s1-db
     networks:
@@ -39,6 +41,7 @@ services:
       - ./mysql/config/my.cnf:/etc/mysql/conf.d/my.cnf
       - mysql:/var/lib/mysql
   s1-sso:
+    hostname: sso.dev.local
     container_name: s1-sso
     image: quay.io/keycloak/keycloak:18.0.2
     entrypoint: /opt/keycloak/bin/kc.sh start-dev --import-realm
@@ -57,6 +60,15 @@ services:
      - ./keycloak/exports:/opt/keycloak/exports
     networks:
     - s1-network 
+  portainer-ce:
+    container_name: portainer
+    ports:
+        - 9443:9443
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - data:/data
+    restart: unless-stopped
+    image: portainer/portainer-ce:latest
 networks:
   s1-network:
     name: s1-network
@@ -68,3 +80,4 @@ volumes:
   s1-liferay-osgi-modules:
   s1-liferay-osgi-war:  
   mysql:
+  data:

@@ -2,6 +2,7 @@ version: "3.7"
 name: s3-liferay-oauth-client-extension
 services:
   s3-liferay:
+    hostname: portal.dev.local
     image: liferay/dxp:2024.q1.5
     container_name: s3-liferay
     environment:
@@ -25,6 +26,7 @@ services:
       - s3-liferay-osgi-modules:/opt/liferay/osgi/modules
       - s3-liferay-osgi-war:/opt/liferay/osgi/war
   s3-apim:
+    hostname: apim.dev.local
     container_name: s3-apim
     image: kong/kong-gateway:3.6.0.0
     environment:
@@ -52,6 +54,7 @@ services:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
   s3-app1:
+    hostname: app1.dev.local
     container_name: s3-app1-react-docker
     build:
       context: ../front-end/app1-docker-example
@@ -63,6 +66,7 @@ services:
       - ../front-end/app1-docker-example:/app/app1-docker-example
       - /app/app1-docker-example/node_modules
   s3-app2:
+    hostname: app2.dev.local
     container_name: s3-app2-react-docker
     build:
       context: ../front-end/app2-docker-example
@@ -74,6 +78,7 @@ services:
       - ../front-end/app2-docker-example:/app/app2-docker-example
       - /app/app2-docker-example/node_modules
   s3-oauth-tester:
+    hostname: tester.dev.local
     container_name: s3-oauth-tester
     build:
       context: ./oauth-tester
