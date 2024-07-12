@@ -18,6 +18,14 @@
 | Liferay             | http://portal.dev.local:18080      | URL of Liferay portal |
 
 
+#### 2. OTHER
+
+| Service             | Title   | Links |
+| --------            | ------- | -------                                                        |
+| SMTP                | http://localhot:5000      | URL of SMTP4DEV |
+
+## TOTO
+* Healthcheck in docker compose
 
 
 https://www.aimprosoft.com/blog/liferay-sso-integration/

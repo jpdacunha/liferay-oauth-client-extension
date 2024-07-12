@@ -6,6 +6,7 @@ services:
     image: liferay/dxp:2024.q1.5
     container_name: s1-liferay
     environment:
+      LIFERAY_INCLUDE_MINUS_AND_MINUS_OVERRIDE: portal-developer.properties
       LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY: 10
       LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES: 10
       LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m"
@@ -59,16 +60,7 @@ services:
      - ./keycloak/config/portal-realm.json:/opt/keycloak/data/import/portal-realm.json
      - ./keycloak/exports:/opt/keycloak/exports
     networks:
-    - s1-network 
-  portainer-ce:
-    container_name: portainer
-    ports:
-        - 9443:9443
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - data:/data
-    restart: unless-stopped
-    image: portainer/portainer-ce:latest
+    - s1-network
 networks:
   s1-network:
     name: s1-network
@@ -80,4 +72,4 @@ volumes:
   s1-liferay-osgi-modules:
   s1-liferay-osgi-war:  
   mysql:
-  data:
+  smtp_data:
